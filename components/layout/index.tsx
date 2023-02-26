@@ -9,6 +9,7 @@ import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
+import ButtonGlow from "../shared/button-glow";
 
 export default function Layout({
   meta,
@@ -29,7 +30,7 @@ export default function Layout({
     <>
       <Meta {...meta} />
       <SignInModal />
-      <div className="fixed h-screen w-full bg-conic from-primary-500 via-tneutral-500 to-white" />
+      <div className="to-primary-100 fixed -z-10 h-screen w-full bg-conic from-white" />
       <div
         className={`fixed top-0 w-full ${
           scrolled
@@ -37,32 +38,71 @@ export default function Layout({
             : "bg-white/0"
         } z-30 transition-all`}
       >
-        <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
-          <Link href="/" className="font-display flex items-center text-2xl">
-            <Image
-              src="/logo.png"
-              alt="Precedent logo"
-              width="30"
-              height="30"
-              className="mr-2 rounded-sm"
-            ></Image>
-            <p>Precedent</p>
+        <div className="container flex h-16 items-center xl:mx-auto">
+          <Link
+            href="/"
+            className="font-display flex items-baseline px-4 text-3xl font-bold xl:pr-16  "
+          >
+            <p>Shortly</p>
           </Link>
-          <div>
-            <AnimatePresence>
-              {!session && status !== "loading" ? (
-                <motion.button
-                  className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                  onClick={() => setShowSignInModal(true)}
-                  {...FADE_IN_ANIMATION_SETTINGS}
+          <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
+            <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
+              <li>
+                <ButtonGlow
+                  Tag="Link"
+                  className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-black"
+                  href="/"
+                  data-glow-animation="grow"
+                  rx="10px"
+                  opacity="1"
+                  speed="700ms"
                 >
-                  Sign In
-                </motion.button>
-              ) : (
-                <UserDropdown />
-              )}
-            </AnimatePresence>
-          </div>
+                  Features
+                </ButtonGlow>
+              </li>
+              <li>
+                <ButtonGlow
+                  Tag="Link"
+                  className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-black"
+                  href="/"
+                  data-glow-animation="grow"
+                  rx="10px"
+                  opacity="1"
+                  speed="700ms"
+                >
+                  Pricing
+                </ButtonGlow>
+              </li>
+              <li>
+                <ButtonGlow
+                  Tag="Link"
+                  className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-black"
+                  data-glow-animation="grow"
+                  rx="10px"
+                  opacity="1"
+                  speed="700ms"
+                  href="/"
+                >
+                  Resources
+                </ButtonGlow>
+              </li>
+            </ul>
+            <div>
+              <AnimatePresence>
+                {!session && status !== "loading" ? (
+                  <motion.button
+                    className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
+                    onClick={() => setShowSignInModal(true)}
+                    {...FADE_IN_ANIMATION_SETTINGS}
+                  >
+                    Sign In
+                  </motion.button>
+                ) : (
+                  <UserDropdown />
+                )}
+              </AnimatePresence>
+            </div>
+          </nav>
         </div>
       </div>
       <main className="flex w-full flex-col items-center justify-center py-32">

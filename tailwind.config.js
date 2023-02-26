@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          100: "hsla(var(--clr-primary-o))",
           500: "hsl(var(--clr-primary))",
           600: "hsl(var(--clr-tertiary))",
         },
@@ -28,8 +29,35 @@ module.exports = {
           600: "hsl(var(--clr-neutral-d))",
         },
       },
-      fontFamily: {
-        default: ["Poppins", "system-ui", "sans-serif"],
+
+      fontSize: {
+        sm: [
+          "1rem",
+          {
+            lineHeight: "1.25rem",
+          },
+        ],
+        base: [
+          "1.125rem",
+          {
+            lineHeight: "1.475rem",
+            letterSpacing: "-0.01em",
+          },
+        ],
+        "2xl": [
+          "1.875rem",
+          {
+            lineHeight: "2.25rem",
+            letterSpacing: "-0.02em",
+          },
+        ],
+        "3xl": [
+          "2.25rem",
+          {
+            lineHeight: "2.75rem",
+            letterSpacing: "-0.03em",
+          },
+        ],
       },
       animation: {
         // Tooltip
@@ -49,7 +77,7 @@ module.exports = {
       },
       backgroundImage: {
         conic:
-          "conic-gradient(at bottom right, var(--tw-gradient-from), 120deg,var(--tw-gradient-via), 150deg, var(--tw-gradient-to)",
+          "conic-gradient(from 0turn at 150% -20%,var(--tw-gradient-from),var(--tw-gradient-from) 230deg,var(--tw-gradient-to) 247deg,var(--tw-gradient-from) 250deg)",
       },
     },
   },
