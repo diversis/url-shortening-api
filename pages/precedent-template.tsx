@@ -7,6 +7,7 @@ import { Github, Twitter } from "@/components/shared/icons";
 import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
+import ButtonGlow from "@/components/shared/button-glow";
 
 export default function Home() {
   return (
@@ -39,7 +40,7 @@ export default function Home() {
           </p>
         </motion.a>
         <motion.h1
-          className="bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
+          className="font-display bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <Balancer>Building blocks for your Next project</Balancer>
@@ -130,14 +131,27 @@ const features = [
     description:
       "Jumpstart your next project by deploying Precedent to [Vercel](https://vercel.com/) in one click.",
     demo: (
-      <a href={DEPLOY_URL}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="https://vercel.com/button"
-          alt="Deploy with Vercel"
-          width={120}
-        />
-      </a>
+      <div className="flex flex-row justify-between gap-8">
+        <a href={DEPLOY_URL}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://vercel.com/button"
+            alt="Deploy with Vercel"
+            width={120}
+          />
+        </a>
+        <ButtonGlow
+          rx={"8px"}
+          speed="1500ms"
+          offset="10px"
+          className="grid h-10 w-32 items-center rounded-lg bg-primary-600/90 px-4 py-1 text-center text-white"
+          onClick={() => {
+            console.log("click");
+          }}
+        >
+          Hello bu
+        </ButtonGlow>
+      </div>
     ),
   },
   {

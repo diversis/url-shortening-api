@@ -11,9 +11,25 @@ module.exports = {
   },
   theme: {
     extend: {
+      colors: {
+        primary: {
+          500: "hsl(var(--clr-primary))",
+          600: "hsl(var(--clr-tertiary))",
+        },
+        secondary: {
+          500: "hsl(var(--clr-secondary))",
+        },
+        surface: {
+          500: "hsl(var(--clr-surface-l))",
+          600: "hsl(var(--clr-surface-d))",
+        },
+        tneutral: {
+          500: "hsl(var(--clr-neutral-l))",
+          600: "hsl(var(--clr-neutral-d))",
+        },
+      },
       fontFamily: {
-        display: ["var(--font-sf)", "system-ui", "sans-serif"],
-        default: ["var(--font-inter)", "system-ui", "sans-serif"],
+        default: ["Poppins", "system-ui", "sans-serif"],
       },
       animation: {
         // Tooltip
@@ -30,15 +46,10 @@ module.exports = {
           "0%": { opacity: 0, transform: "translateY(-6px)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
         },
-        // Buttons
-        "glow-visibility": {
-          "0%,100% ": {
-            opacity: 0,
-          },
-          "25%,75% ": {
-            opacity: 1,
-          },
-        },
+      },
+      backgroundImage: {
+        conic:
+          "conic-gradient(at bottom right, var(--tw-gradient-from), 120deg,var(--tw-gradient-via), 150deg, var(--tw-gradient-to)",
       },
     },
   },
@@ -52,3 +63,4 @@ module.exports = {
     }),
   ],
 };
+//           "conic-gradient(at bottom right, var(--tw-gradient-from), 120deg,var(--tw-gradient-via),180deg",

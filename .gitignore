@@ -18,6 +18,12 @@
 # misc
 .DS_Store
 *.pem
+.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # debug
 npm-debug.log*
@@ -35,3 +41,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#
+dist
+dist-ssr
+*.local
+
+.prettierignore
+
+README-template.md
+style-guide.md
+design

@@ -1,3 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root{
+    --clr-primary:180deg 66% 49%;
+    --clr-tertiary:257deg 27% 26%;
+    --clr-secondary:0deg 87% 67%;
+    --clr-surface-l:255deg 11% 22%;
+    --clr-surface-d:260deg 8% 14%;
+    --clr-neutral-l:0deg 0% 75%;
+    --clr-neutral-d:257deg 7% 63%;
+  }
+
+  html {
+    -webkit-text-size-adjust: none; /* for iOS Safari */
+    text-size-adjust: none; /* for other mobile browsers */
+  }
+
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    text-rendering: optimizeSpeed;
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+  }
+
+  /* Add pointer cursors to interactive elements  */
+  label:not([disabled]),
+  button:not([disabled]),
+  select:not([disabled]),
+  summary:not([disabled]),
+  [type="radio"]:not([disabled]),
+  [type="submit"]:not([disabled]),
+  [type="checkbox"]:not([disabled]) {
+    cursor: pointer;
+  }
+
+  [disabled] {
+    cursor: not-allowed;
+  }
+
+  /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+  @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-primary-600;
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary-500;
+    border-radius: 100px;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-primary-600;
+    border-radius: 100px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-primary-500;
+    border-radius: 100px;
+  }
+}

@@ -8,6 +8,7 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
+import Footer from "./footer";
 
 export default function Layout({
   meta,
@@ -28,7 +29,7 @@ export default function Layout({
     <>
       <Meta {...meta} />
       <SignInModal />
-      <div className="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100" />
+      <div className="fixed h-screen w-full bg-conic from-primary-500 via-tneutral-500 to-white" />
       <div
         className={`fixed top-0 w-full ${
           scrolled
@@ -37,7 +38,7 @@ export default function Layout({
         } z-30 transition-all`}
       >
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
-          <Link href="/" className="flex items-center font-display text-2xl">
+          <Link href="/" className="font-display flex items-center text-2xl">
             <Image
               src="/logo.png"
               alt="Precedent logo"
@@ -67,19 +68,7 @@ export default function Layout({
       <main className="flex w-full flex-col items-center justify-center py-32">
         {children}
       </main>
-      <div className="absolute w-full border-t border-gray-200 bg-white py-5 text-center">
-        <p className="text-gray-500">
-          A free template by{" "}
-          <a
-            className="font-medium text-gray-800 underline transition-colors"
-            href="https://twitter.com/steventey"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Steven Tey
-          </a>
-        </p>
-      </div>
+      <Footer />
     </>
   );
 }
