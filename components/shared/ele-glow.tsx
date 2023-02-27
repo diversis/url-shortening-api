@@ -32,6 +32,7 @@ export default function EleGlow({
     href?: string;
     onClick?: () => void;
     unwrap?: boolean;
+    props?: any;
 }) {
     let isLink = Tag === "Link";
     let [render, setRender] = useState(true);

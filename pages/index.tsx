@@ -1,25 +1,35 @@
 import Layout from "@/components/layout";
 import Balancer from "react-wrap-balancer";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import Image from "next/image";
 import EleGlow from "@/components/shared/ele-glow";
+import { useForm } from "react-hook-form";
+
+async function saveFormData(data: object) {
+    return await fetch("/api/shorten", {
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+    });
+}
 
 export default function Home() {
+    const { register, handleSubmit } = useForm();
     return (
         <Layout>
             {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
-            <div className="container my-10 flex w-full animate-[slide-down-fade_0.5s_ease-in-out] flex-col gap-5 px-5 xl:flex-row-reverse">
+            <div className="container my-10 flex w-full animate-[slide-down-fade_0.5s_ease-in-out] flex-col gap-5  xl:flex-row-reverse">
                 <section className="relative w-full overflow-visible  xl:w-1/2">
                     <Image
                         src="/images/illustration-working.svg"
                         alt="Hero"
                         width={400}
                         height={400}
-                        className="relative w-full xl:-right-10"
+                        className="relative -right-[15%] w-screen xl:-right-10"
                         priority
                     />
                 </section>
-                <section className="w-full self-center xl:w-1/2">
+                <section className="w-full self-center px-5 xl:w-1/2">
                     <article className="flex flex-col items-center gap-4 xl:items-start">
                         <h1 className="w-full text-center text-surface-600 xl:text-left">
                             <Balancer>More than just shorter links</Balancer>
@@ -32,8 +42,8 @@ export default function Home() {
                         </p>
                         <EleGlow
                             className="mt-8 rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-150 ease-in xl:self-start [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
-                            offset="10px"
-                            rx="20px"
+                            offset="0px"
+                            rx="25px"
                         >
                             Get Started
                         </EleGlow>
@@ -43,6 +53,7 @@ export default function Home() {
             {/* Form */}
             <div className="container my-10 animate-[slide-down-fade_0.5s_ease-in-out] gap-5 px-5">
                 <form
+                    onSubmit={handleSubmit(saveFormData)}
                     action="/api/shorten"
                     method="post"
                     className="relative flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:py-10 xl:px-12"
@@ -50,24 +61,23 @@ export default function Home() {
                     <input
                         aria-label="Shorten url"
                         title="Shorten url"
-                        name="shorten-url"
-                        id="shorten-url"
+                        id="url"
                         type="text"
                         placeholder="Shorten a link here"
-                        className="peer relative w-full rounded-lg px-4 py-3 text-base placeholder:text-transparent xl:w-5/6"
+                        className="peer relative h-[3.5rem] w-full rounded-lg px-4  text-base placeholder:text-transparent xl:w-5/6"
                         pattern="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?"
+                        {...register("url", { required: true })}
                     />
                     <label
-                        htmlFor="shorten-url"
-                        className="input-transition pointer-events-none absolute top-[1.65em] left-7 z-50  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
-                        peer-[&:not(:placeholder-shown)]:-translate-y-3 peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-xs
-                        xl:top-[3em] xl:left-16 xl:peer-[&:not(:placeholder-shown)]:-translate-y-1"
+                        htmlFor="url"
+                        className="input-transition pointer-events-none absolute top-[2rem] left-7 z-50  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
+                        peer-[&:not(:placeholder-shown)]:-translate-y-5 peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-xs
+                        xl:top-[3.5rem] xl:left-16 "
                     >
                         Shorten a link here
                     </label>
                     <EleGlow
-                        className="w-full rounded-lg bg-primary-500 px-4 py-3 text-white transition-all duration-150 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
-                        offset="10px"
+                        className="h-[3.5rem] w-full rounded-lg bg-primary-500 px-4 text-white transition-all duration-150 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
                         rx="8px"
                         type="submit"
                     >
@@ -157,9 +167,9 @@ export default function Home() {
                 <article className="mx-auto flex flex-col  items-center  py-16">
                     <h2 className="text-white">Boost your links today</h2>
                     <EleGlow
-                        className="mt-8 rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-150 ease-in [&:is(:hover,:focus)]:bg-primary-500/50 "
-                        offset="10px"
-                        rx="20px"
+                        className="mt-8 rounded-full bg-primary-500 py-3 px-10 text-white transition-all duration-150 ease-in [&:is(:hover,:focus)]:bg-primary-500/50 "
+                        offset="0px"
+                        rx="25px"
                     >
                         Get Started
                     </EleGlow>

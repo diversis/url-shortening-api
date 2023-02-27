@@ -4,13 +4,14 @@ const formSchema = z.string().url();
 
 export default function handler(req, res) {
     if (req.method === "POST") {
+        let uglyUrl = req.body.url;
         try {
-            formSchema.parse(req.body.url);
+            formSchema.parse(uglyUrl);
         } catch (e) {
             res.status(400).json({ e });
             return;
         }
-        console.log(" \n " + req.body.url);
-        res.status(200).json({ data: "John Doe" });
+
+        res.status(200).redirect(307, "/");
     }
 }
