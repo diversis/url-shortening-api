@@ -61,6 +61,27 @@ const SignInModal = ({
               </>
             )}
           </button>
+          <button
+            disabled={signInClicked}
+            className={`${
+              signInClicked
+                ? "cursor-not-allowed border-tneutral-500/50 bg-tneutral-600/50"
+                : "border border-tneutral-500 bg-white text-surface-600 hover:bg-primary-500/25"
+            } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
+            onClick={() => {
+              setSignInClicked(true);
+              signIn("github");
+            }}
+          >
+            {signInClicked ? (
+              <LoadingDots color="#808080" />
+            ) : (
+              <>
+                <Google className="h-5 w-5" />
+                <p>Sign In with Github</p>
+              </>
+            )}
+          </button>
         </div>
       </div>
     </Modal>

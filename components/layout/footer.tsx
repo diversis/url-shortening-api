@@ -1,6 +1,10 @@
 import Link from "next/link";
-import eleGlow from "../shared/ele-glow";
+import EleGlow from "../shared/ele-glow";
 import Image from "next/image";
+import Facebook from "@/components/shared/icons/svg/icon-facebook.svg";
+import Instagram from "@/components/shared/icons/svg/icon-instagram.svg";
+import Twitter from "@/components/shared/icons/svg/icon-twitter.svg";
+import Pinterest from "@/components/shared/icons/svg/icon-pinterest.svg";
 
 const footerLinks = [
     {
@@ -12,22 +16,22 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-    { name: "Facebook", url: "https://www.facebook.com/" },
-    { name: "Twitter", url: "https://www.twitter.com/" },
-    { name: "Instagram", url: "https://www.instagram.com/" },
-    { name: "Pinterest", url: "https://www.pinterest.com/" },
+    { name: "Facebook", url: "https://www.facebook.com/", icon: Facebook },
+    { name: "Twitter", url: "https://www.twitter.com/", icon: Instagram },
+    { name: "Instagram", url: "https://www.instagram.com/", icon: Twitter },
+    { name: "Pinterest", url: "https://www.pinterest.com/", icon: Pinterest },
 ];
 export default function footer() {
     return (
-        <footer className="w-full bg-surface-600 text-white">
-            <div className="container mx-auto flex flex-col items-center justify-center gap-4 px-8 py-12 text-center xl:flex-row xl:justify-between xl:text-left">
+        <footer className="w-full overflow-hidden bg-surface-600 text-white">
+            <div className="xl:gap-[clamp(2rem,10vw + 2rem,8rem)] container mx-auto flex w-full flex-col items-center justify-center gap-4 px-5 py-12 text-center xl:flex-row xl:justify-between xl:text-left">
                 <Link
                     href="/"
-                    className="font-display flex items-baseline px-4 text-3xl font-bold  xl:pr-16 "
+                    className="font-display flex self-start text-3xl font-bold xl:pr-16 "
                 >
                     Shortly
                 </Link>
-                <div className="flex flex-col justify-between gap-4 xl:w-full xl:flex-row xl:px-16">
+                <div className="flex flex-col gap-4 xl:flex-row xl:gap-20 ">
                     {/* Links */}
                     {footerLinks?.length > 0 &&
                         footerLinks.map((key) => {
@@ -41,10 +45,13 @@ export default function footer() {
                                         {!!key &&
                                             key.links?.map((val) => {
                                                 return (
-                                                    <li key={val}>
-                                                        <eleGlow
+                                                    <li
+                                                        key={val}
+                                                        className="[&:is(:hover,:focus)]:text-primary-500"
+                                                    >
+                                                        <EleGlow
                                                             Tag="Link"
-                                                            className=" text-sm transition-all duration-300 ease-in"
+                                                            className=" text-sm transition-all duration-150 ease-in"
                                                             href="/"
                                                             rx="10px"
                                                             opacity="1"
@@ -52,7 +59,7 @@ export default function footer() {
                                                             speed="700ms"
                                                         >
                                                             {val}
-                                                        </eleGlow>
+                                                        </EleGlow>
                                                     </li>
                                                 );
                                             })}
@@ -61,13 +68,14 @@ export default function footer() {
                             );
                         })}
                     {/* Social Links */}
-                    <div className="flex flex-col items-center gap-4 xl:flex-row xl:items-start">
+                    <div className="flex flex-row items-center gap-4 xl:items-start xl:gap-6">
                         {socialLinks.length > 0 &&
                             socialLinks.map((item) => {
+                                const Icon = item.icon;
                                 return (
-                                    <eleGlow
+                                    <EleGlow
                                         Tag="Link"
-                                        className="group h-12 w-12 text-sm transition-all duration-300 ease-in"
+                                        className=" h-8 w-8 text-sm transition-all duration-150 ease-in xl:h-12 xl:w-12"
                                         href={item.url}
                                         rx="10px"
                                         offset="10px"
@@ -75,14 +83,11 @@ export default function footer() {
                                         key={item.name}
                                         data-glow-animation="grow"
                                     >
-                                        <Image
-                                            src={`/images/icon-${item.name}.svg`}
-                                            alt={item.name}
-                                            width={50}
-                                            height={50}
-                                            className="[&:is(:hover,:focus)]:fill-primary-500"
-                                        ></Image>
-                                    </eleGlow>
+                                        <Icon
+                                            viewBox="0 0 24 24"
+                                            className="h-8 w-8 fill-white transition-all duration-150 ease-in xl:h-12 xl:w-12 [&:is(:hover,:focus)]:!fill-primary-500"
+                                        />
+                                    </EleGlow>
                                 );
                             })}
                     </div>

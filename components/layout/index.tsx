@@ -9,7 +9,7 @@ import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
-import eleGlow from "../shared/ele-glow";
+import EleGlow from "../shared/ele-glow";
 
 export default function Layout({
     meta,
@@ -38,19 +38,19 @@ export default function Layout({
                         : "bg-white/0"
                 } z-30 transition-all`}
             >
-                <div className="container flex h-16 items-center xl:mx-auto">
+                <div className="container mx-auto flex h-16 items-center overflow-hidden px-5">
                     <Link
                         href="/"
-                        className="font-display flex items-baseline px-4 text-3xl font-bold xl:pr-16  "
+                        className="font-display flex items-baseline  pr-8 text-3xl font-bold xl:pr-16  "
                     >
                         Shortly
                     </Link>
                     <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
                             <li>
-                                <interactableGlow
+                                <EleGlow
                                     Tag="Link"
-                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-surface-600"
+                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     href="/"
                                     data-glow-animation="grow"
                                     rx="10px"
@@ -58,12 +58,12 @@ export default function Layout({
                                     speed="700ms"
                                 >
                                     Features
-                                </interactableGlow>
+                                </EleGlow>
                             </li>
                             <li>
-                                <interactableGlow
+                                <EleGlow
                                     Tag="Link"
-                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-surface-600"
+                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     href="/"
                                     data-glow-animation="grow"
                                     rx="10px"
@@ -71,12 +71,12 @@ export default function Layout({
                                     speed="700ms"
                                 >
                                     Pricing
-                                </interactableGlow>
+                                </EleGlow>
                             </li>
                             <li>
-                                <interactableGlow
+                                <EleGlow
                                     Tag="Link"
-                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-surface-600"
+                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     data-glow-animation="grow"
                                     rx="10px"
                                     opacity="1"
@@ -84,14 +84,14 @@ export default function Layout({
                                     href="/"
                                 >
                                     Resources
-                                </interactableGlow>
+                                </EleGlow>
                             </li>
                         </ul>
                         <div>
                             <AnimatePresence>
                                 {!session && status !== "loading" ? (
                                     <motion.button
-                                        className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-surface-600"
+                                        className="rounded-full border border-surface-500 bg-surface-600 p-1.5 px-5 text-sm text-white transition-all hover:bg-white hover:text-surface-600"
                                         onClick={() => setShowSignInModal(true)}
                                         {...FADE_IN_ANIMATION_SETTINGS}
                                     >

@@ -1,4 +1,4 @@
-import styles from "./button-glow.module.css";
+import styles from "./ele-glow.module.css";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
