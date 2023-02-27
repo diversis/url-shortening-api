@@ -15,7 +15,7 @@ export default function Home() {
                         alt="Hero"
                         width={400}
                         height={400}
-                        className="relative w-full xl:-right-5"
+                        className="relative w-full xl:-right-10"
                         priority
                     />
                 </section>
@@ -42,15 +42,34 @@ export default function Home() {
             </div>
             {/* Form */}
             <div className="container my-10 animate-[slide-down-fade_0.5s_ease-in-out] gap-5 px-5">
-                <form className="flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:py-10 xl:px-12">
+                <form
+                    action="/api/shorten"
+                    method="post"
+                    className="relative flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:py-10 xl:px-12"
+                >
                     <input
+                        aria-label="Shorten url"
+                        title="Shorten url"
+                        name="shorten-url"
+                        id="shorten-url"
+                        type="text"
                         placeholder="Shorten a link here"
-                        className="w-full rounded-lg px-4 py-3 xl:w-5/6"
-                    ></input>
+                        className="peer relative w-full rounded-lg px-4 py-3 text-base placeholder:text-transparent xl:w-5/6"
+                        pattern="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?"
+                    />
+                    <label
+                        htmlFor="shorten-url"
+                        className="input-transition pointer-events-none absolute top-[1.65em] left-7 z-50  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
+                        peer-[&:not(:placeholder-shown)]:-translate-y-3 peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-xs
+                        xl:top-[3em] xl:left-16 xl:peer-[&:not(:placeholder-shown)]:-translate-y-1"
+                    >
+                        Shorten a link here
+                    </label>
                     <EleGlow
                         className="w-full rounded-lg bg-primary-500 px-4 py-3 text-white transition-all duration-150 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
                         offset="10px"
                         rx="8px"
+                        type="submit"
                     >
                         Shorten it!
                     </EleGlow>
@@ -78,7 +97,7 @@ export default function Home() {
                             className="w-full p-[25%]"
                         ></Image>
                     </div>
-                    <h3 className="w-full text-surface-600">
+                    <h3 className="w-full text-center text-surface-600 xl:text-left">
                         Brand Recognition
                     </h3>
                     <p className="w-full text-center text-base text-tneutral-600 xl:text-left">
@@ -100,7 +119,7 @@ export default function Home() {
                             className="w-full p-[25%]"
                         ></Image>
                     </div>
-                    <h3 className="w-full text-surface-600">
+                    <h3 className="w-full text-center text-surface-600 xl:text-left">
                         Detailed Records
                     </h3>
                     <p className="w-full text-center text-base text-tneutral-600 xl:text-left">
@@ -122,7 +141,7 @@ export default function Home() {
                             className="w-full p-[25%]"
                         ></Image>
                     </div>
-                    <h3 className="w-full text-surface-600">
+                    <h3 className="w-full text-center text-surface-600 xl:text-left">
                         Fully Customizable
                     </h3>
                     <p className="w-full text-center text-base text-tneutral-600 xl:text-left">

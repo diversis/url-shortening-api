@@ -103,4 +103,9 @@
     h6 {
         @apply font-bold;
     }
+
+    .input-transition {
+        transition: color 300ms ease-in-out, background-color 300ms ease-in-out,
+            transform 300ms ease-in-out, font-size 300ms ease-in-out 100ms;
+    }
 }

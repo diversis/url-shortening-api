@@ -7,7 +7,7 @@ import { Github, Twitter } from "@/components/shared/icons";
 import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
-import eleGlow from "@/components/shared/ele-glow";
+import EleGlow from "@/components/shared/ele-glow";
 
 export default function Home() {
     return (

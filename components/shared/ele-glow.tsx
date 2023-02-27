@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
-export default function eleGlow({
+export default function EleGlow({
     children,
     Tag = "button",
     rx = "0px",

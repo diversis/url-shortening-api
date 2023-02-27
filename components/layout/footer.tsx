@@ -27,7 +27,7 @@ export default function footer() {
             <div className="xl:gap-[clamp(2rem,10vw + 2rem,8rem)] container mx-auto flex w-full flex-col items-center justify-center gap-4 px-5 py-12 text-center xl:flex-row xl:justify-between xl:text-left">
                 <Link
                     href="/"
-                    className="font-display flex self-start text-3xl font-bold xl:pr-16 "
+                    className="font-display flex text-3xl font-bold xl:self-start xl:pr-16 "
                 >
                     Shortly
                 </Link>
