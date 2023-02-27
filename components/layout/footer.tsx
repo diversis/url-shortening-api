@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ButtonGlow from "../shared/button-glow";
+import eleGlow from "../shared/ele-glow";
 import Image from "next/image";
 
 const footerLinks = [
@@ -11,7 +11,12 @@ const footerLinks = [
     { name: "Company", links: ["About", "Our Team", "Careers", "Contact"] },
 ];
 
-const socialLinks = ["Facebook", "Twitter", "Instagram", "Pinterest"];
+const socialLinks = [
+    { name: "Facebook", url: "https://www.facebook.com/" },
+    { name: "Twitter", url: "https://www.twitter.com/" },
+    { name: "Instagram", url: "https://www.instagram.com/" },
+    { name: "Pinterest", url: "https://www.pinterest.com/" },
+];
 export default function footer() {
     return (
         <footer className="w-full bg-surface-600 text-white">
@@ -36,18 +41,19 @@ export default function footer() {
                                         {!!key &&
                                             key.links?.map((val) => {
                                                 return (
-                                                    <ButtonGlow
-                                                        Tag="Link"
-                                                        className=" text-sm transition-all duration-300 ease-in"
-                                                        href="/"
-                                                        rx="10px"
-                                                        opacity="1"
-                                                        offset="10px"
-                                                        speed="700ms"
-                                                        key={val}
-                                                    >
-                                                        {val}
-                                                    </ButtonGlow>
+                                                    <li key={val}>
+                                                        <eleGlow
+                                                            Tag="Link"
+                                                            className=" text-sm transition-all duration-300 ease-in"
+                                                            href="/"
+                                                            rx="10px"
+                                                            opacity="1"
+                                                            offset="10px"
+                                                            speed="700ms"
+                                                        >
+                                                            {val}
+                                                        </eleGlow>
+                                                    </li>
                                                 );
                                             })}
                                     </ul>
@@ -59,23 +65,24 @@ export default function footer() {
                         {socialLinks.length > 0 &&
                             socialLinks.map((item) => {
                                 return (
-                                    <ButtonGlow
+                                    <eleGlow
                                         Tag="Link"
-                                        className="h-12 w-12 text-sm transition-all duration-300 ease-in"
-                                        href="/"
+                                        className="group h-12 w-12 text-sm transition-all duration-300 ease-in"
+                                        href={item.url}
                                         rx="10px"
                                         offset="10px"
                                         speed="700ms"
-                                        key={item}
+                                        key={item.name}
                                         data-glow-animation="grow"
                                     >
                                         <Image
-                                            src={`/images/icon-${item}.svg`}
-                                            alt={item}
+                                            src={`/images/icon-${item.name}.svg`}
+                                            alt={item.name}
                                             width={50}
                                             height={50}
+                                            className="[&:is(:hover,:focus)]:fill-primary-500"
                                         ></Image>
-                                    </ButtonGlow>
+                                    </eleGlow>
                                 );
                             })}
                     </div>

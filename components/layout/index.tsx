@@ -9,7 +9,7 @@ import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
-import ButtonGlow from "../shared/button-glow";
+import eleGlow from "../shared/ele-glow";
 
 export default function Layout({
     meta,
@@ -48,7 +48,7 @@ export default function Layout({
                     <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
                             <li>
-                                <ButtonGlow
+                                <interactableGlow
                                     Tag="Link"
                                     className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     href="/"
@@ -58,10 +58,10 @@ export default function Layout({
                                     speed="700ms"
                                 >
                                     Features
-                                </ButtonGlow>
+                                </interactableGlow>
                             </li>
                             <li>
-                                <ButtonGlow
+                                <interactableGlow
                                     Tag="Link"
                                     className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     href="/"
@@ -71,10 +71,10 @@ export default function Layout({
                                     speed="700ms"
                                 >
                                     Pricing
-                                </ButtonGlow>
+                                </interactableGlow>
                             </li>
                             <li>
-                                <ButtonGlow
+                                <interactableGlow
                                     Tag="Link"
                                     className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-300 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     data-glow-animation="grow"
@@ -84,7 +84,7 @@ export default function Layout({
                                     href="/"
                                 >
                                     Resources
-                                </ButtonGlow>
+                                </interactableGlow>
                             </li>
                         </ul>
                         <div>

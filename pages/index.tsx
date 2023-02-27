@@ -1,13 +1,8 @@
-import Card from "@/components/home/card";
 import Layout from "@/components/layout";
 import Balancer from "react-wrap-balancer";
 import { motion } from "framer-motion";
-import { DEPLOY_URL, FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import { Github, Twitter } from "@/components/shared/icons";
-import WebVitals from "@/components/home/web-vitals";
-import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
-import ButtonGlow from "@/components/shared/button-glow";
+import eleGlow from "@/components/shared/ele-glow";
 
 export default function Home() {
     return (
@@ -34,13 +29,13 @@ export default function Home() {
                                 insights on how your links are performing.
                             </Balancer>
                         </p>
-                        <ButtonGlow
+                        <interactableGlow
                             className="mt-8 rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-300 ease-in xl:self-start [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
                             offset="10px"
                             rx="20px"
                         >
                             Get Started
-                        </ButtonGlow>
+                        </interactableGlow>
                     </article>
                 </section>
             </div>
@@ -49,15 +44,15 @@ export default function Home() {
                 <form className="flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:py-10 xl:px-12">
                     <input
                         placeholder="Shorten a link here"
-                        className="w-full rounded-lg px-4 py-2"
+                        className="w-full rounded-lg px-4 py-3 xl:w-5/6"
                     ></input>
-                    <ButtonGlow
-                        className="min-w-[12ch] rounded-lg bg-primary-500 px-4 py-2 text-white transition-all duration-300 ease-in [&:is(:hover,:focus)]:bg-primary-500/50 "
+                    <interactableGlow
+                        className="w-full rounded-lg bg-primary-500 px-4 py-3 text-white transition-all duration-300 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
                         offset="10px"
                         rx="8px"
                     >
                         Shorten it!
-                    </ButtonGlow>
+                    </interactableGlow>
                 </form>
             </div>
             {/* Advanced Statistics */}
@@ -141,13 +136,13 @@ export default function Home() {
             <div className="w-full bg-primary-600 bg-[url(/images/bg-boost-mobile.svg)] bg-cover bg-no-repeat p-0 xl:bg-[url(/images/bg-boost-desktop.svg)] ">
                 <article className="mx-auto flex flex-col  items-center  py-16">
                     <h2 className="text-white">Boost your links today</h2>
-                    <ButtonGlow
+                    <interactableGlow
                         className="mt-8 rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-300 ease-in [&:is(:hover,:focus)]:bg-primary-500/50 "
                         offset="10px"
                         rx="20px"
                     >
                         Get Started
-                    </ButtonGlow>
+                    </interactableGlow>
                 </article>
             </div>
         </Layout>
