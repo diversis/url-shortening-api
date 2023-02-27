@@ -4,6 +4,7 @@ import Balancer from "react-wrap-balancer";
 import Image from "next/image";
 import EleGlow from "@/components/shared/ele-glow";
 import { useForm } from "react-hook-form";
+import { LoadingSpinner } from "@/components/shared/icons";
 
 async function saveFormData(data: object) {
     return await fetch("/api/shorten", {
@@ -14,7 +15,11 @@ async function saveFormData(data: object) {
 }
 
 export default function Home() {
-    const { register, handleSubmit } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting },
+    } = useForm();
     return (
         <Layout>
             {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
@@ -80,8 +85,18 @@ export default function Home() {
                         className="h-[3.5rem] w-full rounded-lg bg-primary-500 px-4 text-white transition-all duration-150 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
                         rx="8px"
                         type="submit"
+                        disabled={isSubmitting}
                     >
-                        Shorten it!
+                        {isSubmitting ? (
+                            <span className="absolute inset-0  flex flex-row items-center justify-center">
+                                <b className="w-8">
+                                    <LoadingSpinner />
+                                </b>
+                                Shortening...
+                            </span>
+                        ) : (
+                            "Shorten it!"
+                        )}
                     </EleGlow>
                 </form>
             </div>

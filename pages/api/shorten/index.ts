@@ -5,6 +5,7 @@ const formSchema = z.string().url();
 export default function handler(req, res) {
     if (req.method === "POST") {
         let uglyUrl = req.body.url;
+        console.log(req.body.url);
         try {
             formSchema.parse(uglyUrl);
         } catch (e) {
