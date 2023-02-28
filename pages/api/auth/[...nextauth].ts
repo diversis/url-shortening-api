@@ -26,6 +26,14 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.VK_CLIENT_SECRET as string,
         }),
     ],
+    callbacks: {
+        session: async ({ session, user }) => {
+            if (session?.user) {
+                session.user.id = user.id;
+            }
+            return session;
+        },
+    },
 };
 
 export default NextAuth(authOptions);

@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { SavedShort } from "@prisma/client";
 
 export async function addShortUrl(
     userId: string,
@@ -20,7 +21,7 @@ export async function addShortUrl(
                 ],
             },
         });
-        return new Response("link already in list: " + oldRecord.pretty);
+        return new Response("Url already in list: " + oldRecord.pretty);
     } catch (NotFoundError) {
         await prisma.savedShort.create({
             data: {
@@ -29,6 +30,21 @@ export async function addShortUrl(
                 pretty,
             },
         });
-        return "Your review has been successfully posted.";
+        return "Url saved.";
     }
+}
+
+export async function getShortUrls(userId: string) {
+    const data: SavedShort[] = await prisma.savedShort.findMany({
+        where: {
+            userId,
+        },
+        select: {
+            ugly: true,
+            pretty: true,
+            createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+    });
+    return { urls: data };
 }

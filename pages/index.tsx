@@ -115,7 +115,7 @@ export default function Home() {
                 newestOnTop={true}
                 pauseOnFocusLoss={false}
             />
-            <div className="container my-10 flex animate-[slide-down-fade_0.5s_ease-in-out] flex-col gap-8 gap-5 px-5">
+            <div className="container my-10 flex animate-[slide-down-fade_0.5s_ease-in-out] flex-col gap-5 px-5 xl:gap-8">
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     action="/api/shorten"
@@ -164,64 +164,71 @@ export default function Home() {
                         )}
                     </EleGlow>
                 </form>
-                <div className="container mx-auto flex flex-col gap-8 px-8">
-                    {urlList.length > 0 &&
-                        urlList.map((item) => {
-                            let timeout: NodeJS.Timeout;
-                            let onCooldown = false;
-                            return (
-                                <div
-                                    key={
-                                        item.pretty +
-                                        Date.now().toString().slice(-6)
-                                    }
-                                    className="flex flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between"
-                                >
-                                    <div className="w-full flex-1 py-2">
-                                        {item.ugly}
-                                    </div>
-                                    <div className="w-full flex-1 py-2 text-primary-500 xl:w-1/2">
-                                        {item.pretty}
-                                    </div>
-                                    <EleGlow
-                                        className="w-full self-center rounded-lg bg-primary-500 p-2 text-white 
+                <div className="relative w-full flex-none overflow-hidden rounded-lg border border-solid border-tneutral-500/50">
+                    <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-white to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent"></div>
+
+                    <div className="flex max-h-[22rem] w-full flex-col gap-8 overflow-y-auto overflow-x-clip py-4 px-8">
+                        {urlList.length > 0 &&
+                            urlList.map((item) => {
+                                let timeout: NodeJS.Timeout;
+                                let onCooldown = false;
+                                return (
+                                    <div
+                                        key={
+                                            item.pretty +
+                                            Date.now().toString().slice(-6)
+                                        }
+                                        className="flex flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between"
+                                    >
+                                        <div className="w-full flex-1 ">
+                                            {item.ugly}
+                                        </div>
+                                        <div className="w-full flex-1 text-primary-500 xl:w-1/2">
+                                            {item.pretty}
+                                        </div>
+                                        <EleGlow
+                                            className="w-full self-center rounded-lg bg-primary-500 p-2 text-white 
                                         transition-all duration-150 ease-in data-[copium=true]:!bg-surface-500 
                                         data-[copium=true]:!text-white xl:w-32
                                         [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
-                                        rx="8px"
-                                        type="button"
-                                        onClick={(e) => {
-                                            clearTimeout(timeout);
-                                            navigator.clipboard.writeText(
-                                                item.pretty,
-                                            );
+                                            rx="8px"
+                                            type="button"
+                                            onClick={(e) => {
+                                                clearTimeout(timeout);
+                                                navigator.clipboard.writeText(
+                                                    item.pretty,
+                                                );
 
-                                            e.target.setAttribute(
-                                                "data-copium",
-                                                true,
-                                            );
-                                            e.target.innerText = "Copium";
-
-                                            timeout = setTimeout(() => {
                                                 e.target.setAttribute(
                                                     "data-copium",
-                                                    false,
+                                                    true,
                                                 );
-                                                e.target.innerText = "Copy";
-                                                onCooldown = false;
-                                            }, 3000);
+                                                e.target.innerText = "Copium";
 
-                                            if (!onCooldown) {
-                                                onCooldown = true;
-                                                toast("Copium!!!!!!!!!!!!!!");
-                                            }
-                                        }}
-                                    >
-                                        Copy
-                                    </EleGlow>
-                                </div>
-                            );
-                        })}
+                                                timeout = setTimeout(() => {
+                                                    e.target.setAttribute(
+                                                        "data-copium",
+                                                        false,
+                                                    );
+                                                    e.target.innerText = "Copy";
+                                                    onCooldown = false;
+                                                }, 3000);
+
+                                                if (!onCooldown) {
+                                                    onCooldown = true;
+                                                    toast(
+                                                        "Copium!!!!!!!!!!!!!!",
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            Copy
+                                        </EleGlow>
+                                    </div>
+                                );
+                            })}
+                    </div>
                 </div>
             </div>
             {/* Advanced Statistics */}
