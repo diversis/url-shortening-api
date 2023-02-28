@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import useWindowSize from "@/lib/hooks/use-window-size";
+import useLocalStorage from "@/lib/hooks/use-local-storage";
 
 async function saveFormData(data: object) {
     return await fetch("/api/shorten", {
@@ -19,8 +20,8 @@ async function saveFormData(data: object) {
 }
 
 export default function Home() {
+    const [urlList, setUrlList] = useLocalStorage("urlList", []);
     const { isDesktop } = useWindowSize();
-
     const {
         register,
         handleSubmit,
@@ -28,6 +29,10 @@ export default function Home() {
         reset,
         formState: { isSubmitting, errors, isSubmitSuccessful },
     } = useForm();
+
+    const copyToClipboard = async (text) => {
+        navigator.clipboard.writeText(text);
+    };
 
     const onSubmit = async (data: object) => {
         const response = await saveFormData(data);
@@ -45,7 +50,16 @@ export default function Home() {
             }
         } else if (response.ok) {
             // successful
-
+            const resBody = await response.json();
+            console.log(resBody.pretty);
+            if (Array.isArray(urlList)) {
+                setUrlList([
+                    { ugly: resBody.ugly, pretty: resBody.pretty },
+                    ...urlList,
+                ]);
+            } else {
+                setUrlList([{ ugly: resBody.ugly, pretty: resBody.pretty }]);
+            }
             toast.success("Successfully saved");
         } else {
             // unknown error
@@ -99,8 +113,9 @@ export default function Home() {
                 position={isDesktop ? "bottom-right" : "top-center"}
                 limit={5}
                 newestOnTop={true}
+                pauseOnFocusLoss={false}
             />
-            <div className="container my-10 animate-[slide-down-fade_0.5s_ease-in-out] gap-5 px-5">
+            <div className="container my-10 flex animate-[slide-down-fade_0.5s_ease-in-out] flex-col gap-8 gap-5 px-5">
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     action="/api/shorten"
@@ -149,6 +164,37 @@ export default function Home() {
                         )}
                     </EleGlow>
                 </form>
+                <div className="container mx-auto flex flex-col gap-8 px-8">
+                    {urlList.length > 0 &&
+                        urlList.map((item) => {
+                            return (
+                                <div
+                                    key={
+                                        item.pretty +
+                                        Date.now().toString().slice(-6)
+                                    }
+                                    className="flex flex-col items-start xl:flex-row xl:items-center xl:justify-between"
+                                >
+                                    <div className="w-full flex-auto py-2">
+                                        {item.ugly}
+                                    </div>
+                                    <div className="w-1/2 flex-auto py-2 text-primary-500">
+                                        {item.pretty}
+                                    </div>
+                                    <EleGlow
+                                        className="w-full self-center rounded-lg bg-primary-500 p-2 text-white transition-all duration-150 ease-in xl:w-min  [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
+                                        rx="8px"
+                                        type="button"
+                                        onClick={() =>
+                                            copyToClipboard(item.pretty)
+                                        }
+                                    >
+                                        Copy
+                                    </EleGlow>
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
             {/* Advanced Statistics */}
             <article className="container mt-12 flex w-full flex-col items-center px-5">

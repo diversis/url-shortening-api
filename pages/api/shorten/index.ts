@@ -15,6 +15,24 @@ export default function handler(req, res) {
             return;
         }
 
-        res.status(200).redirect(307, "/");
+        res.status(200).json({
+            ugly: req.body.url,
+            pretty: makeid(6).toString(),
+        });
+        return;
     }
+}
+function makeid(length) {
+    let result = "";
+    const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength),
+        );
+        counter += 1;
+    }
+    return result;
 }

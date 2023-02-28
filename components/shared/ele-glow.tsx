@@ -100,6 +100,7 @@ export default function EleGlow({
                             ["--final-opacity"]: opacity,
                         } as React.CSSProperties
                     }
+                    onClick={onClick}
                     {...props}
                 >
                     {render && (
