@@ -36,7 +36,7 @@ export default function Layout({
                     scrolled
                         ? "border-b border-gray-200 bg-white/50 backdrop-blur-xl"
                         : "bg-white/0"
-                } z-30 transition-all`}
+                } z-50 transition-all`}
             >
                 <div className="container mx-auto flex h-16 items-center overflow-hidden px-5">
                     <Link
@@ -105,7 +105,7 @@ export default function Layout({
                     </nav>
                 </div>
             </div>
-            <main className="flex w-full flex-col items-center justify-center gap-16 pt-32">
+            <main className="flex w-full flex-col items-center justify-center gap-8 pt-12 xl:gap-16 xl:pt-32">
                 {children}
             </main>
             <Footer />

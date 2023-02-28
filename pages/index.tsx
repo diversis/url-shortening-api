@@ -135,7 +135,7 @@ export default function Home() {
                         />
                         <label
                             htmlFor="url"
-                            className="input-transition pointer-events-none absolute top-[1rem] left-4 z-50  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
+                            className="input-transition pointer-events-none absolute top-[1rem] left-4 z-20  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
                         peer-[&:not(:placeholder-shown)]:-translate-y-5 peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-xs
                           "
                         >
@@ -167,27 +167,55 @@ export default function Home() {
                 <div className="container mx-auto flex flex-col gap-8 px-8">
                     {urlList.length > 0 &&
                         urlList.map((item) => {
+                            let timeout: NodeJS.Timeout;
+                            let onCooldown = false;
                             return (
                                 <div
                                     key={
                                         item.pretty +
                                         Date.now().toString().slice(-6)
                                     }
-                                    className="flex flex-col items-start xl:flex-row xl:items-center xl:justify-between"
+                                    className="flex flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between"
                                 >
-                                    <div className="w-full flex-auto py-2">
+                                    <div className="w-full flex-1 py-2">
                                         {item.ugly}
                                     </div>
-                                    <div className="w-1/2 flex-auto py-2 text-primary-500">
+                                    <div className="w-full flex-1 py-2 text-primary-500 xl:w-1/2">
                                         {item.pretty}
                                     </div>
                                     <EleGlow
-                                        className="w-full self-center rounded-lg bg-primary-500 p-2 text-white transition-all duration-150 ease-in xl:w-min  [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
+                                        className="w-full self-center rounded-lg bg-primary-500 p-2 text-white 
+                                        transition-all duration-150 ease-in data-[copium=true]:!bg-surface-500 
+                                        data-[copium=true]:!text-white xl:w-32
+                                        [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
                                         rx="8px"
                                         type="button"
-                                        onClick={() =>
-                                            copyToClipboard(item.pretty)
-                                        }
+                                        onClick={(e) => {
+                                            clearTimeout(timeout);
+                                            navigator.clipboard.writeText(
+                                                item.pretty,
+                                            );
+
+                                            e.target.setAttribute(
+                                                "data-copium",
+                                                true,
+                                            );
+                                            e.target.innerText = "Copium";
+
+                                            timeout = setTimeout(() => {
+                                                e.target.setAttribute(
+                                                    "data-copium",
+                                                    false,
+                                                );
+                                                e.target.innerText = "Copy";
+                                                onCooldown = false;
+                                            }, 3000);
+
+                                            if (!onCooldown) {
+                                                onCooldown = true;
+                                                toast("Copium!!!!!!!!!!!!!!");
+                                            }
+                                        }}
                                     >
                                         Copy
                                     </EleGlow>

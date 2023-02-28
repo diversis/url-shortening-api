@@ -30,7 +30,7 @@ export default function EleGlow({
     className?: string;
     opacity?: string;
     href?: string;
-    onClick?: () => void;
+    onClick?: (e?: any) => void;
     unwrap?: boolean;
     props?: any;
 }) {
@@ -49,7 +49,7 @@ export default function EleGlow({
     });
     return (
         <>
-            {isLink && (
+            {isLink && render && (
                 <Link
                     ref={ref}
                     className={styles["glow-effect"] + " " + className}
@@ -66,27 +66,26 @@ export default function EleGlow({
                     href={href}
                     {...props}
                 >
-                    {render && (
-                        <svg className={styles["glow-container"]}>
-                            <rect
-                                pathLength="100"
-                                stroke-linecap="round"
-                                className={styles["glow-blur"]}
-                                rx={rx}
-                            ></rect>
-                            <rect
-                                pathLength="100"
-                                stroke-linecap="round"
-                                className={styles["glow-line"]}
-                                rx={rx}
-                            ></rect>
-                        </svg>
-                    )}
+                    
+                    <svg className={styles["glow-container"]}>
+                        <rect
+                            pathLength="100"
+                            stroke-linecap="round"
+                            className={styles["glow-blur"]}
+                            rx={rx}
+                        ></rect>
+                        <rect
+                            pathLength="100"
+                            stroke-linecap="round"
+                            className={styles["glow-line"]}
+                            rx={rx}
+                        ></rect>
+                    </svg>
                     {children}
                 </Link>
             )}
 
-            {!unwrap && !isLink && (
+            {!unwrap && !isLink && render && (
                 <Tag
                     ref={ref}
                     className={styles["glow-effect"] + " " + className}
@@ -103,23 +102,20 @@ export default function EleGlow({
                     onClick={onClick}
                     {...props}
                 >
-                    {render && (
-                        <svg className={styles["glow-container"]}>
-                            <rect
-                                pathLength="100"
-                                stroke-linecap="round"
-                                className={styles["glow-blur"]}
-                                rx={rx}
-                            ></rect>
-                            <rect
-                                pathLength="100"
-                                stroke-linecap="round"
-                                className={styles["glow-line"]}
-                                rx={rx}
-                            ></rect>
-                        </svg>
-                    )}
-
+                    <svg className={styles["glow-container"]}>
+                        <rect
+                            pathLength="100"
+                            stroke-linecap="round"
+                            className={styles["glow-blur"]}
+                            rx={rx}
+                        ></rect>
+                        <rect
+                            pathLength="100"
+                            stroke-linecap="round"
+                            className={styles["glow-line"]}
+                            rx={rx}
+                        ></rect>
+                    </svg>
                     {children}
                 </Tag>
             )}
