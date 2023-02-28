@@ -38,7 +38,7 @@ export default function EleGlow({
     let [render, setRender] = useState(true);
     const onResize = useCallback(() => {
         setRender(false);
-        setTimeout(() => setRender(true), 0);
+        setTimeout(() => setRender(true));
     }, []);
 
     const { width, height, ref } = useResizeDetector({
@@ -66,7 +66,6 @@ export default function EleGlow({
                     href={href}
                     {...props}
                 >
-                    
                     <svg className={styles["glow-container"]}>
                         <rect
                             pathLength="100"

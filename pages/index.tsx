@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
+import makeid from "@/components/shared/makeId";
 
 async function saveFormData(data: object) {
     return await fetch("/api/shorten", {
@@ -29,10 +30,6 @@ export default function Home() {
         reset,
         formState: { isSubmitting, errors, isSubmitSuccessful },
     } = useForm();
-
-    const copyToClipboard = async (text) => {
-        navigator.clipboard.writeText(text);
-    };
 
     const onSubmit = async (data: object) => {
         const response = await saveFormData(data);
@@ -55,16 +52,17 @@ export default function Home() {
             if (Array.isArray(urlList)) {
                 setUrlList([
                     { ugly: resBody.ugly, pretty: resBody.pretty },
-                    ...urlList,
+                    ...urlList.slice(-2),
                 ]);
             } else {
                 setUrlList([{ ugly: resBody.ugly, pretty: resBody.pretty }]);
             }
-            toast.success("Successfully saved");
+            toast.success("What a pretty URL here");
         } else {
             // unknown error
             toast.error(
-                "An unexpected error occurred while saving, please try again",
+                "An unexpected error occurred while processing, please try again",
+                response.error?.message,
             );
         }
     };
@@ -120,7 +118,7 @@ export default function Home() {
                     onSubmit={handleSubmit(onSubmit)}
                     action="/api/shorten"
                     method="post"
-                    className="relative flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:px-12 xl:pt-10"
+                    className="relative flex animate-bg-slide flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-[size:400%+400%] bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:bg-[size:200%+200%] xl:px-12 xl:pt-10"
                 >
                     <div className="relative w-full xl:w-5/6">
                         <input
@@ -164,73 +162,68 @@ export default function Home() {
                         )}
                     </EleGlow>
                 </form>
-                <div className="relative w-full flex-none overflow-hidden rounded-lg border border-solid border-tneutral-500/50">
-                    <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-white to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent"></div>
+                {/* <div className="relative w-full flex-none overflow-hidden rounded-lg border border-solid border-tneutral-500/25"> */}
+                {/* <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-white/70 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/70 to-transparent"></div> */}
 
-                    <div className="flex max-h-[22rem] w-full flex-col gap-8 overflow-y-auto overflow-x-clip py-4 px-8">
-                        {urlList.length > 0 &&
-                            urlList.map((item) => {
-                                let timeout: NodeJS.Timeout;
-                                let onCooldown = false;
-                                return (
-                                    <div
-                                        key={
-                                            item.pretty +
-                                            Date.now().toString().slice(-6)
-                                        }
-                                        className="flex flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between"
-                                    >
-                                        <div className="w-full flex-1 ">
-                                            {item.ugly}
-                                        </div>
-                                        <div className="w-full flex-1 text-primary-500 xl:w-1/2">
-                                            {item.pretty}
-                                        </div>
-                                        <EleGlow
-                                            className="w-full self-center rounded-lg bg-primary-500 p-2 text-white 
+                <div className="flex w-full flex-col gap-8 py-4 px-8">
+                    {urlList.length > 0 &&
+                        urlList.slice(0, 3).map((item) => {
+                            let timeout: NodeJS.Timeout;
+                            let onCooldown = false;
+                            return (
+                                <div
+                                    key={item.pretty + makeid(6).toString()}
+                                    className="flex flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between"
+                                >
+                                    <div className="w-full flex-1 ">
+                                        {item.ugly}
+                                    </div>
+                                    <div className="w-full flex-1 text-primary-500 xl:w-1/2">
+                                        {item.pretty}
+                                    </div>
+                                    <EleGlow
+                                        className="w-full self-center rounded-lg bg-primary-500 p-2 text-white 
                                         transition-all duration-150 ease-in data-[copium=true]:!bg-surface-500 
                                         data-[copium=true]:!text-white xl:w-32
                                         [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
-                                            rx="8px"
-                                            type="button"
-                                            onClick={(e) => {
-                                                clearTimeout(timeout);
-                                                navigator.clipboard.writeText(
-                                                    item.pretty,
-                                                );
+                                        rx="8px"
+                                        type="button"
+                                        onClick={(e) => {
+                                            clearTimeout(timeout);
+                                            navigator.clipboard.writeText(
+                                                item.pretty,
+                                            );
 
+                                            e.target.setAttribute(
+                                                "data-copium",
+                                                true,
+                                            );
+                                            e.target.innerText = "Copium";
+
+                                            timeout = setTimeout(() => {
                                                 e.target.setAttribute(
                                                     "data-copium",
-                                                    true,
+                                                    false,
                                                 );
-                                                e.target.innerText = "Copium";
+                                                e.target.innerText = "Copy";
+                                                onCooldown = false;
+                                            }, 3000);
 
-                                                timeout = setTimeout(() => {
-                                                    e.target.setAttribute(
-                                                        "data-copium",
-                                                        false,
-                                                    );
-                                                    e.target.innerText = "Copy";
-                                                    onCooldown = false;
-                                                }, 3000);
-
-                                                if (!onCooldown) {
-                                                    onCooldown = true;
-                                                    toast(
-                                                        "Copium!!!!!!!!!!!!!!",
-                                                    );
-                                                }
-                                            }}
-                                        >
-                                            Copy
-                                        </EleGlow>
-                                    </div>
-                                );
-                            })}
-                    </div>
+                                            if (!onCooldown) {
+                                                onCooldown = true;
+                                                toast("Copium!!!!!!!!!!!!!!");
+                                            }
+                                        }}
+                                    >
+                                        Copy
+                                    </EleGlow>
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
+            {/* </div> */}
             {/* Advanced Statistics */}
             <article className="container mt-12 flex w-full flex-col items-center px-5">
                 <h2 className="py-6 text-surface-600">Advanced Statistics</h2>
@@ -309,7 +302,7 @@ export default function Home() {
                     </p>
                 </article>
             </div>
-            <div className="w-full bg-primary-600 bg-[url(/images/bg-boost-mobile.svg)] bg-cover bg-no-repeat p-0 xl:bg-[url(/images/bg-boost-desktop.svg)] ">
+            <div className="w-full animate-bg-slide bg-primary-600 bg-[url(/images/bg-boost-mobile.svg)] bg-[size:200%+200%] bg-no-repeat  p-0 xl:bg-[url(/images/bg-boost-desktop.svg)] ">
                 <article className="mx-auto flex flex-col  items-center  py-16">
                     <h2 className="text-white">Boost your links today</h2>
                     <EleGlow

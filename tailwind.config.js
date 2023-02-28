@@ -86,6 +86,9 @@ module.exports = {
                     "slide-up-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                 "slide-down-fade":
                     "slide-down-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                // Form and last section background
+                "bg-slide":
+                    "bg-slide 50s cubic-bezier(0.46, 0.33, 0.3, -0.1) infinite",
             },
             keyframes: {
                 // Tooltip
@@ -96,6 +99,10 @@ module.exports = {
                 "slide-down-fade": {
                     "0%": { opacity: 0, transform: "translateY(-6px)" },
                     "100%": { opacity: 1, transform: "translateY(0)" },
+                },
+                "bg-slide": {
+                    "0%, 100%": { "background-position": "top left" },
+                    "50%": { "background-position": "bottom right" },
                 },
             },
             backgroundImage: {

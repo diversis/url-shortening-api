@@ -46,5 +46,10 @@ export async function getShortUrls(userId: string) {
         },
         orderBy: { createdAt: "desc" },
     });
+    data.map((item) => {
+        item.createdAt = Math.floor(+item.createdAt / 1000);
+        return item;
+    });
+    console.log(data);
     return { urls: data };
 }

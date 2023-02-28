@@ -2,8 +2,15 @@ import { addShortUrl } from "@/lib/prisma/shortUrls";
 import { getServerSession } from "next-auth/next";
 import { type ZodString, z, ZodError } from "zod";
 import { authOptions } from "pages/api/auth/[...nextauth]";
+import axios, { type AxiosResponse } from "axios";
+import makeid from "@/components/shared/makeId";
 
 const formSchema: ZodString = z.string().url();
+
+const shrtcode = axios.create({
+    baseURL: "https://api.shrtco.de/v2",
+    timeout: 1000,
+});
 
 export default async function handler(req, res) {
     if (req.method === "POST") {
@@ -19,11 +26,22 @@ export default async function handler(req, res) {
         }
         const session = await getServerSession(req, res, authOptions);
 
+        let response: AxiosResponse<unknown, unknown>;
+        // Axios fetch
+        try {
+            response = await shrtcode("/shorten?url=" + req.body.url);
+        } catch (e) {
+            console.log(e);
+            res.status(500).json({ error: e.errors[0].message });
+        }
+        console.log(response.data);
         const mockPretty = makeid(6).toString();
-
-        if (!!session && session.user) {
+        let shortenedUrl = "";
+        if (!!session && session.user && response.data?.ok) {
             try {
-                addShortUrl(session.user.id, req.body.url, mockPretty);
+                shortenedUrl = response.data.result?.full_short_link;
+                console.log(shortenedUrl);
+                addShortUrl(session.user.id, req.body.url, shortenedUrl);
             } catch (e) {
                 console.log(e);
             }
@@ -31,22 +49,8 @@ export default async function handler(req, res) {
 
         res.status(200).json({
             ugly: req.body.url,
-            pretty: mockPretty,
+            pretty: shortenedUrl,
         });
         return;
     }
-}
-function makeid(length) {
-    let result = "";
-    const characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(
-            Math.floor(Math.random() * charactersLength),
-        );
-        counter += 1;
-    }
-    return result;
 }
