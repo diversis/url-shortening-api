@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { type ZodString, z, ZodError } from "zod";
 
-const formSchema = z.string().url();
+const formSchema: ZodString = z.string().url();
 
 export default function handler(req, res) {
     if (req.method === "POST") {
@@ -8,8 +8,10 @@ export default function handler(req, res) {
         console.log(req.body.url);
         try {
             formSchema.parse(uglyUrl);
-        } catch (e) {
-            res.status(400).json({ e });
+        } catch (e: unknown) {
+            console.log(e.errors[0].message);
+            if (e instanceof ZodError)
+                res.status(400).json({ url: e.errors[0].message });
             return;
         }
 

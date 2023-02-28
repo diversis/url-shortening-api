@@ -5,6 +5,10 @@ import Image from "next/image";
 import EleGlow from "@/components/shared/ele-glow";
 import { useForm } from "react-hook-form";
 import { LoadingSpinner } from "@/components/shared/icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import useWindowSize from "@/lib/hooks/use-window-size";
 
 async function saveFormData(data: object) {
     return await fetch("/api/shorten", {
@@ -15,11 +19,46 @@ async function saveFormData(data: object) {
 }
 
 export default function Home() {
+    const { isDesktop } = useWindowSize();
+
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting },
+        setError,
+        reset,
+        formState: { isSubmitting, errors, isSubmitSuccessful },
     } = useForm();
+
+    const onSubmit = async (data: object) => {
+        const response = await saveFormData(data);
+        if (response.status === 400) {
+            console.log("invalid");
+
+            // Validation error
+            const fieldToErrorMessage: { [fieldName: string]: string } =
+                await response.json();
+            console.log(fieldToErrorMessage);
+            for (const [fieldName, errorMessage] of Object.entries(
+                fieldToErrorMessage,
+            )) {
+                setError(fieldName, { type: "custom", message: errorMessage });
+            }
+        } else if (response.ok) {
+            // successful
+
+            toast.success("Successfully saved");
+        } else {
+            // unknown error
+            toast.error(
+                "An unexpected error occurred while saving, please try again",
+            );
+        }
+    };
+    useEffect(() => {
+        reset({
+            url: "",
+        });
+    }, [isSubmitSuccessful]);
     return (
         <Layout>
             {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
@@ -56,31 +95,42 @@ export default function Home() {
                 </section>
             </div>
             {/* Form */}
+            <ToastContainer
+                position={isDesktop ? "bottom-right" : "top-center"}
+                limit={5}
+                newestOnTop={true}
+            />
             <div className="container my-10 animate-[slide-down-fade_0.5s_ease-in-out] gap-5 px-5">
                 <form
-                    onSubmit={handleSubmit(saveFormData)}
+                    onSubmit={handleSubmit(onSubmit)}
                     action="/api/shorten"
                     method="post"
-                    className="relative flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:py-10 xl:px-12"
+                    className="relative flex flex-col justify-between gap-4 rounded-lg bg-primary-600 bg-[url(/images/bg-shorten-mobile.svg)] bg-cover bg-no-repeat p-4 align-middle xl:flex-row xl:gap-8 xl:bg-[url(/images/bg-shorten-desktop.svg)] xl:px-12 xl:pt-10"
                 >
-                    <input
-                        aria-label="Shorten url"
-                        title="Shorten url"
-                        id="url"
-                        type="text"
-                        placeholder="Shorten a link here"
-                        className="peer relative h-[3.5rem] w-full rounded-lg px-4  text-base placeholder:text-transparent xl:w-5/6"
-                        pattern="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?"
-                        {...register("url", { required: true })}
-                    />
-                    <label
-                        htmlFor="url"
-                        className="input-transition pointer-events-none absolute top-[2rem] left-7 z-50  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
+                    <div className="relative w-full xl:w-5/6">
+                        <input
+                            aria-label="Shorten url"
+                            title="Shorten url"
+                            id="url"
+                            type="text"
+                            placeholder="Shorten a link here"
+                            className="peer relative h-[3.5rem] w-full rounded-lg px-4  text-base placeholder:text-transparent "
+                            pattern="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?"
+                            {...register("url", { required: true })}
+                        />
+                        <label
+                            htmlFor="url"
+                            className="input-transition pointer-events-none absolute top-[1rem] left-4 z-50  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
                         peer-[&:not(:placeholder-shown)]:-translate-y-5 peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-xs
-                        xl:top-[3.5rem] xl:left-16 "
-                    >
-                        Shorten a link here
-                    </label>
+                          "
+                        >
+                            Shorten a link here
+                        </label>
+                        <div className="h-6 text-sm text-red-500">
+                            {errors?.url?.message}
+                        </div>
+                    </div>
+
                     <EleGlow
                         className="h-[3.5rem] w-full rounded-lg bg-primary-500 px-4 text-white transition-all duration-150 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
                         rx="8px"
