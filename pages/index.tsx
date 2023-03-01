@@ -12,6 +12,7 @@ import useWindowSize from "@/lib/hooks/use-window-size";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
 import makeid from "@/components/shared/makeId";
 import { ShortUrlFromDB } from "@/lib/prisma/shortUrls";
+import { NextApiResponse } from "next";
 
 async function saveFormData(data: object): Promise<Response> {
     return await fetch("/api/shorten", {
@@ -57,9 +58,11 @@ export default function Home() {
                 setUrlList([
                     { ugly: resBody.ugly, pretty: resBody.pretty },
                     ...urlList.slice(-2),
-                ]);
+                ] as never);
             } else {
-                setUrlList([{ ugly: resBody.ugly, pretty: resBody.pretty }]);
+                setUrlList([
+                    { ugly: resBody.ugly, pretty: resBody.pretty },
+                ] as never);
             }
             toast.success("What a pretty URL here");
         } else {
@@ -180,18 +183,19 @@ export default function Home() {
                 <div className="flex w-full flex-col gap-8 py-4 px-8">
                     {urlList.length > 0 &&
                         urlList.slice(0, 3).map((item) => {
+                            const shortUrl = item as ShortUrlFromDB;
                             let timeout: NodeJS.Timeout;
                             let onCooldown = false;
                             return (
                                 <div
-                                    key={item.pretty + makeid(6).toString()}
+                                    key={shortUrl.pretty + makeid(6).toString()}
                                     className="flex flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between"
                                 >
                                     <div className="w-full flex-1 ">
-                                        {item.ugly}
+                                        {shortUrl.ugly}
                                     </div>
                                     <div className="w-full flex-1 text-primary-500 xl:w-1/2">
-                                        {item.pretty}
+                                        {shortUrl.pretty}
                                     </div>
                                     <GlowWrap
                                         className="w-full self-center xl:w-32"
@@ -199,24 +203,27 @@ export default function Home() {
                                     >
                                         <button
                                             type="button"
-                                            onClick={(e) => {
+                                            onClick={(
+                                                e: React.MouseEvent<HTMLElement>,
+                                            ) => {
                                                 clearTimeout(timeout);
                                                 navigator.clipboard.writeText(
-                                                    item.pretty,
+                                                    shortUrl.pretty,
                                                 );
-
-                                                e.target.setAttribute(
+                                                const target =
+                                                    e.target as HTMLButtonElement;
+                                                target.setAttribute(
                                                     "data-copium",
-                                                    true,
+                                                    "true",
                                                 );
-                                                e.target.innerText = "Copium";
+                                                target.innerText = "Copium";
 
                                                 timeout = setTimeout(() => {
-                                                    e.target.setAttribute(
+                                                    target.setAttribute(
                                                         "data-copium",
-                                                        false,
+                                                        "false",
                                                     );
-                                                    e.target.innerText = "Copy";
+                                                    target.innerText = "Copy";
                                                     onCooldown = false;
                                                 }, 3000);
 

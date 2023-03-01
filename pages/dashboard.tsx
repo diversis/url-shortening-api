@@ -1,4 +1,3 @@
-import EleGlow from "@/components/shared/ele-glow";
 import { ShortUrlFromDB, getShortUrls } from "@/lib/prisma/shortUrls";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "pages/api/auth/[...nextauth]";
@@ -10,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import "react-toastify/dist/ReactToastify.css";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import GlowWrap from "@/components/shared/glowwrap";
 
 export const getServerSideProps = async (
