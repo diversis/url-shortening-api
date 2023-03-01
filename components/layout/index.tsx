@@ -8,7 +8,13 @@ import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
-import EleGlow from "../shared/ele-glow";
+import GlowWrap from "../shared/glowwrap";
+
+const menuItems = [
+    { name: "Features", url: "/" },
+    { name: "Pricing", url: "/" },
+    { name: "Resources", url: "/" },
+];
 
 export default function Layout({
     meta,
@@ -46,45 +52,28 @@ export default function Layout({
                     </Link>
                     <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
-                            <li>
-                                <EleGlow
-                                    tagName="Link"
-                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
-                                    href="/"
-                                    data-glow-animation="grow"
-                                    rx="10px"
-                                    opacity="1"
-                                    speed="700ms"
-                                >
-                                    Features
-                                </EleGlow>
-                            </li>
-                            <li>
-                                <EleGlow
-                                    tagName="Link"
-                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
-                                    href="/"
-                                    data-glow-animation="grow"
-                                    rx="10px"
-                                    opacity="1"
-                                    speed="700ms"
-                                >
-                                    Pricing
-                                </EleGlow>
-                            </li>
-                            <li>
-                                <EleGlow
-                                    tagName="Link"
-                                    className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
-                                    data-glow-animation="grow"
-                                    rx="10px"
-                                    opacity="1"
-                                    speed="700ms"
-                                    href="/"
-                                >
-                                    Resources
-                                </EleGlow>
-                            </li>
+                            {Array.isArray(menuItems) &&
+                                menuItems.length > 0 &&
+                                menuItems.map((item) => {
+                                    return (
+                                        <li>
+                                            <GlowWrap
+                                                className="h-fit self-end text-sm"
+                                                data-glow-animation="grow"
+                                                rx="10px"
+                                                opacity="1"
+                                                speed="700ms"
+                                            >
+                                                <Link
+                                                    href={item.url}
+                                                    className="text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                            </GlowWrap>
+                                        </li>
+                                    );
+                                })}
                         </ul>
                         <div>
                             <AnimatePresence>

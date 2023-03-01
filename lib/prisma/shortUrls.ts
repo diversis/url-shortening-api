@@ -1,6 +1,14 @@
 import prisma from "@/lib/prisma";
 import { SavedShort } from "@prisma/client";
 
+export declare type ShortUrlFromDB = Omit<
+    SavedShort,
+    "id" | "userId" | "updatedAt"
+>;
+declare type ShortUrlsForNextJS = ShortUrlFromDB & {
+    createdAt: number;
+};
+
 export async function addShortUrl(
     userId: string,
     ugly: string,
@@ -35,7 +43,7 @@ export async function addShortUrl(
 }
 
 export async function getShortUrls(userId: string) {
-    const data: SavedShort[] = await prisma.savedShort.findMany({
+    const data: ShortUrlFromDB[] = await prisma.savedShort.findMany({
         where: {
             userId,
         },
@@ -46,10 +54,12 @@ export async function getShortUrls(userId: string) {
         },
         orderBy: { createdAt: "desc" },
     });
-    data.map((item) => {
-        item.createdAt = Math.floor(+item.createdAt / 1000);
-        return item;
-    });
-    console.log(data);
+    // const nextData: ShortUrlsForNextJS[] = data.map(
+    //     (item: ShortUrlFromDB): ShortUrlsForNextJS => {
+    //         item.createdAt = Math.floor(+item.createdAt / 1000);
+    //         return item as ShortUrlsForNextJS;
+    //     },
+    // );
+    // console.log(data);
     return { urls: data };
 }

@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    productionBrowserSourceMaps: process.env.APP_ENV === "ANALYZE",
     reactStrictMode: true,
     swcMinify: true,
     images: {
@@ -32,14 +31,11 @@ const nextConfig = {
 
 module.exports = nextConfig;
 
-const withPlugins = require("next-compose-plugins");
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-    enabled: process.env.ANALYZE === "true",
-});
-module.exports = withPlugins(
-    [
-        [withBundleAnalyzer],
-        // your other plugins here
-    ],
-    nextConfig,
-);
+// const withPlugins = require("next-compose-plugins");
+// const withBundleAnalyzer = require("@next/bundle-analyzer")({
+//     enabled: process.env.ANALYZE === "true",
+// });
+// module.exports = withPlugins(
+
+//     nextConfig,
+// );

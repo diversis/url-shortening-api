@@ -2,17 +2,18 @@ import Layout from "@/components/layout";
 import Balancer from "react-wrap-balancer";
 // import { motion } from "framer-motion";
 import Image from "next/image";
-import EleGlow from "@/components/shared/ele-glow";
+import GlowWrap from "@/components/shared/glowwrap";
 import { useForm } from "react-hook-form";
 import { LoadingSpinner } from "@/components/shared/icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
 import makeid from "@/components/shared/makeId";
+import { ShortUrlFromDB } from "@/lib/prisma/shortUrls";
 
-async function saveFormData(data: object) {
+async function saveFormData(data: object): Promise<Response> {
     return await fetch("/api/shorten", {
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
@@ -23,15 +24,18 @@ async function saveFormData(data: object) {
 export default function Home() {
     const [urlList, setUrlList] = useLocalStorage("urlList", []);
     const { isDesktop } = useWindowSize();
+
     const {
         register,
         handleSubmit,
         setError,
         reset,
+        setFocus,
         formState: { isSubmitting, errors, isSubmitSuccessful },
     } = useForm();
 
     const onSubmit = async (data: object) => {
+        console.log(data);
         const response = await saveFormData(data);
         if (response.status === 400) {
             console.log("invalid");
@@ -48,7 +52,7 @@ export default function Home() {
         } else if (response.ok) {
             // successful
             const resBody = await response.json();
-            console.log(resBody.pretty);
+            const urlList = resBody as ShortUrlFromDB[];
             if (Array.isArray(urlList)) {
                 setUrlList([
                     { ugly: resBody.ugly, pretty: resBody.pretty },
@@ -96,13 +100,18 @@ export default function Home() {
                                 insights on how your links are performing.
                             </Balancer>
                         </p>
-                        <EleGlow
-                            className="mt-8 rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-150 ease-in xl:self-start [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
+                        <GlowWrap
+                            className="mt-8 rounded-full "
                             offset="0px"
                             rx="25px"
                         >
-                            Get Started
-                        </EleGlow>
+                            <button
+                                onClick={() => setFocus("url")}
+                                className="rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-150 ease-in xl:self-start [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
+                            >
+                                Get Started
+                            </button>
+                        </GlowWrap>
                     </article>
                 </section>
             </div>
@@ -115,6 +124,7 @@ export default function Home() {
             />
             <div className="container my-10 flex animate-[slide-down-fade_0.5s_ease-in-out] flex-col gap-5 px-5 xl:gap-8">
                 <form
+                    id="form-url"
                     onSubmit={handleSubmit(onSubmit)}
                     action="/api/shorten"
                     method="post"
@@ -144,23 +154,24 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <EleGlow
-                        className="h-[3.5rem] w-full rounded-lg bg-primary-500 px-4 text-white transition-all duration-150 ease-in xl:w-1/6 [&:is(:hover,:focus)]:bg-primary-500/50 "
-                        rx="8px"
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? (
-                            <span className="absolute inset-0  flex flex-row items-center justify-center">
-                                <b className="w-8">
-                                    <LoadingSpinner />
-                                </b>
-                                Shortening...
-                            </span>
-                        ) : (
-                            "Shorten it!"
-                        )}
-                    </EleGlow>
+                    <GlowWrap className="h-[3.5rem] w-full xl:w-1/6" rx="8px">
+                        <button
+                            className="h-[3.5rem] w-full rounded-lg bg-primary-500 px-4 text-white transition-all duration-150 ease-in [&:is(:hover,:focus)]:bg-primary-500/50 "
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? (
+                                <span className="absolute inset-0  flex flex-row items-center justify-center">
+                                    <b className="w-8">
+                                        <LoadingSpinner />
+                                    </b>
+                                    Shortening...
+                                </span>
+                            ) : (
+                                "Shorten it!"
+                            )}
+                        </button>
+                    </GlowWrap>
                 </form>
                 {/* <div className="relative w-full flex-none overflow-hidden rounded-lg border border-solid border-tneutral-500/25"> */}
                 {/* <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-white/70 to-transparent"></div>
@@ -182,44 +193,48 @@ export default function Home() {
                                     <div className="w-full flex-1 text-primary-500 xl:w-1/2">
                                         {item.pretty}
                                     </div>
-                                    <EleGlow
-                                        className="w-full self-center rounded-lg bg-primary-500 p-2 text-white 
+                                    <GlowWrap
+                                        className="w-full self-center xl:w-32"
+                                        rx="8px"
+                                    >
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                clearTimeout(timeout);
+                                                navigator.clipboard.writeText(
+                                                    item.pretty,
+                                                );
+
+                                                e.target.setAttribute(
+                                                    "data-copium",
+                                                    true,
+                                                );
+                                                e.target.innerText = "Copium";
+
+                                                timeout = setTimeout(() => {
+                                                    e.target.setAttribute(
+                                                        "data-copium",
+                                                        false,
+                                                    );
+                                                    e.target.innerText = "Copy";
+                                                    onCooldown = false;
+                                                }, 3000);
+
+                                                if (!onCooldown) {
+                                                    onCooldown = true;
+                                                    toast.success("Copium!", {
+                                                        autoClose: 1500,
+                                                    });
+                                                }
+                                            }}
+                                            className="w-full rounded-lg bg-primary-500 p-2 text-white 
                                         transition-all duration-150 ease-in data-[copium=true]:!bg-surface-500 
                                         data-[copium=true]:!text-white xl:w-32
                                         [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
-                                        rx="8px"
-                                        type="button"
-                                        onClick={(e) => {
-                                            clearTimeout(timeout);
-                                            navigator.clipboard.writeText(
-                                                item.pretty,
-                                            );
-
-                                            e.target.setAttribute(
-                                                "data-copium",
-                                                true,
-                                            );
-                                            e.target.innerText = "Copium";
-
-                                            timeout = setTimeout(() => {
-                                                e.target.setAttribute(
-                                                    "data-copium",
-                                                    false,
-                                                );
-                                                e.target.innerText = "Copy";
-                                                onCooldown = false;
-                                            }, 3000);
-
-                                            if (!onCooldown) {
-                                                onCooldown = true;
-                                                toast.success("Copium!", {
-                                                    autoClose: 1500,
-                                                });
-                                            }
-                                        }}
-                                    >
-                                        Copy
-                                    </EleGlow>
+                                        >
+                                            Copy
+                                        </button>
+                                    </GlowWrap>
                                 </div>
                             );
                         })}
@@ -307,13 +322,18 @@ export default function Home() {
             <div className="w-full animate-bg-slide bg-primary-600 bg-[url(/images/bg-boost-mobile.svg)] bg-[size:200%+200%] bg-no-repeat  p-0 xl:bg-[url(/images/bg-boost-desktop.svg)] ">
                 <article className="mx-auto flex flex-col  items-center  py-16">
                     <h2 className="text-white">Boost your links today</h2>
-                    <EleGlow
-                        className="mt-8 rounded-full bg-primary-500 py-3 px-10 text-white transition-all duration-150 ease-in [&:is(:hover,:focus)]:bg-primary-500/50 "
+                    <GlowWrap
+                        className="mt-8 rounded-full "
                         offset="0px"
                         rx="25px"
                     >
-                        Get Started
-                    </EleGlow>
+                        <button
+                            onClick={() => setFocus("url")}
+                            className="rounded-full bg-primary-500 px-10 py-3 text-white transition-all duration-150 ease-in xl:self-start [&:is(:hover,:focus)]:bg-primary-500/50"
+                        >
+                            Get Started
+                        </button>
+                    </GlowWrap>
                 </article>
             </div>
         </Layout>

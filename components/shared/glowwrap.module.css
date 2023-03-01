@@ -41,7 +41,7 @@ as described by Kevin Powell https://codepen.io/kevinpowell/pen/rNrdzdx
     y: calc((var(--container-offset) / 2) + calc(var(--glow-offset) / -2));
     /* rx: 1.25rem; */
     fill: transparent;
-    stroke: black;
+
     stroke-width: 5px;
     stroke-dasharray: var(--glow-line-length)
         calc(50px - var(--glow-line-length));
@@ -54,13 +54,11 @@ as described by Kevin Powell https://codepen.io/kevinpowell/pen/rNrdzdx
 }
 
 .glow-line {
-    @apply stroke-primary-500;
     stroke-width: var(--glow-line-thickness);
 }
 
 .glow-blur {
     filter: blur(var(--glow-blur-size));
-    @apply stroke-primary-500;
     stroke-width: var(--glow-blur-size);
 }
 

@@ -1,9 +1,10 @@
 import Link from "next/link";
-import EleGlow from "../shared/ele-glow";
+
 import Facebook from "@/components/shared/icons/svg/icon-facebook.svg";
 import Instagram from "@/components/shared/icons/svg/icon-instagram.svg";
 import Twitter from "@/components/shared/icons/svg/icon-twitter.svg";
 import Pinterest from "@/components/shared/icons/svg/icon-pinterest.svg";
+import GlowWrap from "../shared/glowwrap";
 
 const footerLinks = [
     {
@@ -48,17 +49,19 @@ export default function footer() {
                                                         key={val}
                                                         className="[&:is(:hover,:focus)]:text-primary-500"
                                                     >
-                                                        <EleGlow
-                                                            tagName="Link"
-                                                            className=" text-sm transition-all duration-150 ease-in"
-                                                            href="/"
+                                                        <GlowWrap
                                                             rx="10px"
                                                             opacity="1"
                                                             offset="10px"
                                                             speed="700ms"
                                                         >
-                                                            {val}
-                                                        </EleGlow>
+                                                            <Link
+                                                                href="/"
+                                                                className=" text-sm transition-all duration-150 ease-in"
+                                                            >
+                                                                {val}
+                                                            </Link>
+                                                        </GlowWrap>
                                                     </li>
                                                 );
                                             })}
@@ -72,21 +75,21 @@ export default function footer() {
                             socialLinks.map((item) => {
                                 const Icon = item.icon;
                                 return (
-                                    <EleGlow
-                                        tagName="Link"
-                                        className=" h-8 w-8 text-sm transition-all duration-150 ease-in xl:h-12 xl:w-12"
-                                        href={item.url}
+                                    <GlowWrap
+                                        className=" h-8 w-8 transition-all duration-150 ease-in xl:h-12 xl:w-12"
                                         rx="10px"
                                         offset="10px"
                                         speed="700ms"
                                         key={item.name}
                                         data-glow-animation="grow"
                                     >
-                                        <Icon
-                                            viewBox="0 0 24 24"
-                                            className="h-8 w-8 fill-white transition-all duration-150 ease-in xl:h-12 xl:w-12 [&:is(:hover,:focus)]:!fill-primary-500"
-                                        />
-                                    </EleGlow>
+                                        <a href={item.url}>
+                                            <Icon
+                                                viewBox="0 0 24 24"
+                                                className="h-8 w-8 fill-white transition-all duration-150 ease-in xl:h-12 xl:w-12 [&:is(:hover,:focus)]:!fill-primary-500"
+                                            />
+                                        </a>
+                                    </GlowWrap>
                                 );
                             })}
                     </div>

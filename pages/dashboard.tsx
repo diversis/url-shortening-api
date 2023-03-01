@@ -1,5 +1,5 @@
 import EleGlow from "@/components/shared/ele-glow";
-import { getShortUrls } from "@/lib/prisma/shortUrls";
+import { ShortUrlFromDB, getShortUrls } from "@/lib/prisma/shortUrls";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 import Layout from "@/components/layout";
@@ -10,8 +10,12 @@ import { useSession } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import "react-toastify/dist/ReactToastify.css";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import GlowWrap from "@/components/shared/glowwrap";
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = async (
+    context: GetServerSidePropsContext,
+) => {
     const session: Session | null = await getServerSession(
         context.req,
         context.res,
@@ -27,15 +31,15 @@ export async function getServerSideProps(context) {
         };
     }
 
-    const listOfPrettyUrls: { urls: SavedShort[] } = await getShortUrls(
+    const listOfPrettyUrls: { urls: ShortUrlFromDB[] } = await getShortUrls(
         session.user?.id,
     );
     return {
         props: {
-            listOfPrettyUrls,
+            listOfPrettyUrls: JSON.parse(JSON.stringify(listOfPrettyUrls)),
         },
     };
-}
+};
 
 export default function Dashboard({
     listOfPrettyUrls,
@@ -89,7 +93,7 @@ export default function Dashboard({
                         listOfUrls.length > 0 &&
                         listOfUrls.map((item: SavedShort, id: number) => {
                             const date = new Date(+item.createdAt * 1000);
-                            let options = {
+                            const options: Intl.DateTimeFormatOptions = {
                                 weekday: "short",
                                 year: "numeric",
                                 month: "numeric",
@@ -123,63 +127,76 @@ export default function Dashboard({
                                         scope="row"
                                         className="table-cell w-full border-r border-solid border-tneutral-500/50 p-2 xl:w-1/2"
                                     >
-                                        <EleGlow
-                                            tagName="Link"
-                                            href={item.pretty}
+                                        <GlowWrap
                                             offset="5px"
                                             opacity="0.5"
                                             rx="8px"
-                                            className="mx-auto w-fit px-2 text-primary-500 xl:m-0 [&:is(:hover,:focus)]:underline"
-                                            target="_blank"
-                                            rel="noreferrer"
+                                            className="mx-auto w-fit xl:m-0 "
                                         >
-                                            {item.pretty}
-                                        </EleGlow>
+                                            <a
+                                                href={item.pretty}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="w-fit px-2 text-primary-500 xl:m-0 [&:is(:hover,:focus)]:underline"
+                                            >
+                                                {item.pretty}
+                                            </a>
+                                        </GlowWrap>
                                     </td>
                                     <td
                                         scope="row"
                                         className=" table-cell w-full p-2"
                                     >
-                                        <EleGlow
-                                            className=" mx-auto !flex w-full flex-row items-center justify-center rounded-lg 
-                                            border-2 border-transparent bg-primary-500 p-1 text-white
-                                        transition-all duration-150 ease-in active:border-tneutral-500 data-[copium=true]:!bg-surface-500
-                                        data-[copium=true]:!text-white xl:w-min [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600 [&>*]:pointer-events-none"
+                                        <GlowWrap
+                                            className="mx-auto !flex w-full flex-row items-center justify-center self-center rounded-lg xl:w-min"
                                             rx="8px"
-                                            type="button"
-                                            onClick={(e) => {
-                                                clearTimeout(timeout);
-                                                navigator.clipboard.writeText(
-                                                    item.pretty,
-                                                );
-
-                                                e.target.setAttribute(
-                                                    "data-copium",
-                                                    true,
-                                                );
-
-                                                timeout = setTimeout(() => {
-                                                    e.target.setAttribute(
+                                        >
+                                            <button
+                                                type="button"
+                                                onClick={(
+                                                    e: React.MouseEvent<HTMLElement>,
+                                                ) => {
+                                                    clearTimeout(timeout);
+                                                    navigator.clipboard.writeText(
+                                                        item.pretty,
+                                                    );
+                                                    const target =
+                                                        e.target as HTMLButtonElement;
+                                                    target.setAttribute(
                                                         "data-copium",
-                                                        false,
+                                                        "true",
                                                     );
 
-                                                    onCooldown = false;
-                                                }, 3000);
+                                                    timeout = setTimeout(() => {
+                                                        target.setAttribute(
+                                                            "data-copium",
+                                                            "false",
+                                                        );
 
-                                                if (!onCooldown) {
-                                                    onCooldown = true;
-                                                    toast.success("Copium!", {
-                                                        autoClose: 1500,
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            <ClipboardCopy />
-                                            <span className="inline-block px-2 xl:hidden ">
-                                                Copy
-                                            </span>
-                                        </EleGlow>
+                                                        onCooldown = false;
+                                                    }, 3000);
+
+                                                    if (!onCooldown) {
+                                                        onCooldown = true;
+                                                        toast.success(
+                                                            "Copium!",
+                                                            {
+                                                                autoClose: 1500,
+                                                            },
+                                                        );
+                                                    }
+                                                }}
+                                                className=" mx-auto !flex w-full flex-row items-center justify-center rounded-lg 
+                                            border-2 border-transparent bg-primary-500 p-1 text-white
+                                        transition-all duration-150 ease-in active:border-tneutral-500 data-[copium='true']:!bg-surface-500
+                                        data-[copium='true']:!text-white xl:w-min [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600 [&>*]:pointer-events-none"
+                                            >
+                                                <ClipboardCopy />
+                                                <span className="inline-block px-2 xl:hidden ">
+                                                    Copy
+                                                </span>
+                                            </button>
+                                        </GlowWrap>
                                     </td>
                                 </tr>
                             );

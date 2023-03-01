@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { type ZodString, z, ZodError } from "zod";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 import axios, { AxiosError, type AxiosResponse } from "axios";
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next";
 
 const formSchema: ZodString = z.string().url();
 
@@ -26,10 +26,13 @@ declare type ShrtcodeType = {
     };
 };
 
-export default async function handler(req:NextApiRequest, res:NextApiResponse ) {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse,
+) {
     if (req.method === "POST") {
         let uglyUrl = req.body.url;
-        // console.log(req.body.url);
+        console.log(req.body.url);
 
         try {
             formSchema.parse(uglyUrl);
@@ -84,6 +87,20 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse ) 
                 data = response.data as ShrtcodeType;
                 if (data.ok) {
                     shortenedUrl = data.result.full_short_link;
+                    try {
+                        formSchema.parse(shortenedUrl);
+                    } catch (e: unknown) {
+                        if (e instanceof ZodError) {
+                            console.log(e.errors[0].message);
+                            res.status(500).json({ url: e.errors[0].message });
+                        } else {
+                            console.log(e);
+                            res.status(500).json({ url: JSON.stringify(e) });
+                        }
+
+                        return;
+                    }
+
                     addShortUrl(session.user.id, req.body.url, shortenedUrl);
                 }
             } catch (e) {
