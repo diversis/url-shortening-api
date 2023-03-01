@@ -105,7 +105,7 @@ export default function Layout({
                     </nav>
                 </div>
             </div>
-            <main className="flex w-full flex-col items-center justify-center gap-8 pt-12 xl:gap-16 xl:pt-32">
+            <main className="flex w-full flex-col items-center gap-8 pt-12 xl:gap-16 xl:pt-32">
                 {children}
             </main>
             <Footer />

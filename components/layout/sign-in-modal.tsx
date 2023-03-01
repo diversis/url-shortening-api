@@ -85,7 +85,7 @@ const SignInModal = ({
                             </>
                         )}
                     </button>
-                    <button
+                    {/* <button
                         disabled={signInClicked}
                         className={`${
                             signInClicked
@@ -126,7 +126,7 @@ const SignInModal = ({
                                 <p>Sign In with Yandex</p>
                             </>
                         )}
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </Modal>
