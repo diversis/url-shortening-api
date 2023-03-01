@@ -1,6 +1,5 @@
 import Link from "next/link";
 import EleGlow from "../shared/ele-glow";
-import Image from "next/image";
 import Facebook from "@/components/shared/icons/svg/icon-facebook.svg";
 import Instagram from "@/components/shared/icons/svg/icon-instagram.svg";
 import Twitter from "@/components/shared/icons/svg/icon-twitter.svg";
@@ -50,7 +49,7 @@ export default function footer() {
                                                         className="[&:is(:hover,:focus)]:text-primary-500"
                                                     >
                                                         <EleGlow
-                                                            Tag="Link"
+                                                            tagName="Link"
                                                             className=" text-sm transition-all duration-150 ease-in"
                                                             href="/"
                                                             rx="10px"
@@ -74,7 +73,7 @@ export default function footer() {
                                 const Icon = item.icon;
                                 return (
                                     <EleGlow
-                                        Tag="Link"
+                                        tagName="Link"
                                         className=" h-8 w-8 text-sm transition-all duration-150 ease-in xl:h-12 xl:w-12"
                                         href={item.url}
                                         rx="10px"

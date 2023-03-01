@@ -212,7 +212,9 @@ export default function Home() {
 
                                             if (!onCooldown) {
                                                 onCooldown = true;
-                                                toast("Copium!!!!!!!!!!!!!!");
+                                                toast.success("Copium!", {
+                                                    autoClose: 1500,
+                                                });
                                             }
                                         }}
                                     >

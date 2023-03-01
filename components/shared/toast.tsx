@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import * as ToastPrimitive from "@radix-ui/react-toast";
-import { AnimatePresence } from "framer-motion";
 
 export default function Toast() {
     useEffect(() => {

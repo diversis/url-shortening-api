@@ -1,11 +1,14 @@
 import styles from "./ele-glow.module.css";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
+
+const eleType = ["submit", "reset", "button"];
+declare type eleType = "submit" | "reset" | "button";
 
 export default function EleGlow({
     children,
-    Tag = "button",
+    tagName = "button",
     rx = "0px",
     speed = "1200ms",
     offset = "0px",
@@ -17,10 +20,12 @@ export default function EleGlow({
     unwrap = false,
     opacity = "0",
     href = "#",
+    target,
+    type,
     ...props
 }: {
-    children?: React.ReactNode;
-    Tag?: string;
+    children?: React.ReactNode | React.ReactNode[];
+    tagName?: string;
     rx?: string;
     speed?: string;
     offset?: string;
@@ -32,10 +37,13 @@ export default function EleGlow({
     href?: string;
     onClick?: (e?: any) => void;
     unwrap?: boolean;
+    target?: string;
+    type?: string;
     props?: any;
 }) {
-    let isLink = Tag === "Link";
-    let [render, setRender] = useState(true);
+    let isLink = tagName === "Link";
+    let [render, setRender] = useState(false);
+    // const Tag = tagName as keyof JSX.IntrinsicElements;
     const onResize = useCallback(() => {
         setRender(false);
         setTimeout(() => setRender(true));
@@ -47,6 +55,8 @@ export default function EleGlow({
         refreshRate: 1000,
         onResize,
     });
+
+    useEffect(() => setRender(true), []);
     return (
         <>
             {isLink && render && (
@@ -64,6 +74,8 @@ export default function EleGlow({
                         } as React.CSSProperties
                     }
                     href={href}
+                    target={target}
+                    type={type}
                     {...props}
                 >
                     <svg className={styles["glow-container"]}>
@@ -80,12 +92,13 @@ export default function EleGlow({
                             rx={rx}
                         ></rect>
                     </svg>
+
                     {children}
                 </Link>
             )}
 
             {!unwrap && !isLink && render && (
-                <Tag
+                <button
                     ref={ref}
                     className={styles["glow-effect"] + " " + className}
                     style={
@@ -97,6 +110,9 @@ export default function EleGlow({
                             ["--glow-line-length"]: length,
                             ["--final-opacity"]: opacity,
                         } as React.CSSProperties
+                    }
+                    type={
+                        type && type in eleType ? (type as eleType) : "button"
                     }
                     onClick={onClick}
                     {...props}
@@ -115,8 +131,9 @@ export default function EleGlow({
                             rx={rx}
                         ></rect>
                     </svg>
+
                     {children}
-                </Tag>
+                </button>
             )}
         </>
     );

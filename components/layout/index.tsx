@@ -1,7 +1,6 @@
 import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
@@ -49,7 +48,7 @@ export default function Layout({
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
                             <li>
                                 <EleGlow
-                                    Tag="Link"
+                                    tagName="Link"
                                     className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     href="/"
                                     data-glow-animation="grow"
@@ -62,7 +61,7 @@ export default function Layout({
                             </li>
                             <li>
                                 <EleGlow
-                                    Tag="Link"
+                                    tagName="Link"
                                     className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     href="/"
                                     data-glow-animation="grow"
@@ -75,7 +74,7 @@ export default function Layout({
                             </li>
                             <li>
                                 <EleGlow
-                                    Tag="Link"
+                                    tagName="Link"
                                     className="font-display h-fit self-end text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                     data-glow-animation="grow"
                                     rx="10px"

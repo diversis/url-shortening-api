@@ -10,8 +10,6 @@ import {
 import { LoadingDots, Google } from "@/components/shared/icons";
 import Image from "next/image";
 import Github from "@/components/shared/icons/svg/icon-github.svg";
-import Vk from "@/components/shared/icons/svg/icon-vk.svg";
-import Yandex from "@/components/shared/icons/svg/icon-yandex.svg";
 
 const SignInModal = ({
     showSignInModal,

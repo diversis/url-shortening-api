@@ -5,8 +5,11 @@ import { authOptions } from "pages/api/auth/[...nextauth]";
 import Layout from "@/components/layout";
 import { type Session } from "next-auth";
 import { SavedShort } from "@prisma/client";
-import { ClipboardCopy, ClipboardCopyIcon } from "lucide-react";
+import { ClipboardCopy } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { ToastContainer, toast } from "react-toastify";
+import useWindowSize from "@/lib/hooks/use-window-size";
+import "react-toastify/dist/ReactToastify.css";
 
 export async function getServerSideProps(context) {
     const session: Session | null = await getServerSession(
@@ -40,29 +43,47 @@ export default function Dashboard({
     listOfPrettyUrls: { urls: SavedShort[] };
 }): JSX.Element {
     const listOfUrls: SavedShort[] = listOfPrettyUrls.urls;
+    const { isDesktop } = useWindowSize();
     // console.log(listOfUrls);
     return (
         <Layout>
+            <ToastContainer
+                position={isDesktop ? "bottom-right" : "top-center"}
+                limit={isDesktop ? 5 : 3}
+                newestOnTop={true}
+                pauseOnFocusLoss={false}
+            />
             <div className="w-full  border-b border-solid border-tneutral-500/50">
                 <h3 className="mx-auto text-center">Your Saved Links</h3>
             </div>
+
             <table className="container mx-auto mb-8 flex table-fixed flex-col  px-4 xl:table">
                 <thead className="hidden  w-full xl:table-header-group">
-                    <tr className="table-row bg-primary-500/25  py-2">
+                    <tr className="table-row bg-primary-600 py-2  text-white">
                         <th
                             scope="col"
-                            className="table-cell w-[20ch] rounded-tl-lg"
+                            className="table-cell w-full rounded-tl-lg border-r border-solid border-tneutral-500/50 xl:w-[20ch]"
                         >
                             Save Date
                         </th>
-                        <th scope="col">Ugly Url</th>
-                        <th scope="col">Pretty Url</th>
+                        <th
+                            scope="col"
+                            className="border-r border-solid border-tneutral-500/50"
+                        >
+                            Ugly Url
+                        </th>
+                        <th
+                            scope="col"
+                            className="border-r border-solid border-tneutral-500/50"
+                        >
+                            Pretty Url
+                        </th>
                         <th scope="col" className="w-[10ch] rounded-tr-lg">
                             Copy Url
                         </th>
                     </tr>
                 </thead>
-                <tbody className="container flex w-full flex-col border-solid border-tneutral-500/50 xl:table-row-group xl:border [&>*:nth-child(even)]:bg-primary-500/25">
+                <tbody className="container flex w-full flex-col border-solid border-tneutral-500/50 xl:table-row-group xl:border [&>*:nth-child(even)]:bg-primary-600/80 [&>*:nth-child(even)]:text-white">
                     {listOfUrls &&
                         Array.isArray(listOfUrls) &&
                         listOfUrls.length > 0 &&
@@ -76,95 +97,91 @@ export default function Dashboard({
                                 hour: "numeric",
                                 minute: "numeric",
                             };
-
+                            let timeout: NodeJS.Timeout;
+                            let onCooldown = false;
                             return (
-                                <>
-                                    <tr
-                                        key={item.pretty + "-" + id}
-                                        className="flex w-full flex-col items-center border-b border-solid border-tneutral-500/50 text-center xl:table-row xl:text-left  "
+                                <tr
+                                    key={item.pretty + "-" + id}
+                                    className="flex w-full flex-col items-center border-b border-solid border-tneutral-500/50 text-center xl:table-row xl:text-left  "
+                                >
+                                    <td
+                                        scope="row"
+                                        className="table-cell w-full border-r border-solid border-tneutral-500/50 p-2 xl:w-min"
                                     >
-                                        <td
-                                            scope="row"
-                                            className="w-min border-r border-solid border-tneutral-500/50 p-1"
+                                        {date.toLocaleDateString(
+                                            "en-US",
+                                            options,
+                                        )}
+                                    </td>
+                                    <td
+                                        scope="row"
+                                        className="table-cell w-full border-r border-solid border-tneutral-500/50 p-2"
+                                    >
+                                        {item.ugly}
+                                    </td>
+                                    <td
+                                        scope="row"
+                                        className="table-cell w-full border-r border-solid border-tneutral-500/50 p-2 xl:w-1/2"
+                                    >
+                                        <EleGlow
+                                            tagName="Link"
+                                            href={item.pretty}
+                                            offset="5px"
+                                            opacity="0.5"
+                                            rx="8px"
+                                            className="mx-auto w-fit px-2 text-primary-500 xl:m-0 [&:is(:hover,:focus)]:underline"
+                                            target="_blank"
+                                            rel="noreferrer"
                                         >
-                                            {date.toLocaleDateString(
-                                                "en-US",
-                                                options,
-                                            )}
-                                        </td>
-                                        <td
-                                            scope="row"
-                                            className="w-full border-r border-solid border-tneutral-500/50 p-1"
-                                        >
-                                            {item.ugly}
-                                        </td>
-                                        <td
-                                            scope="row"
-                                            className="w-full border-r  border-solid border-tneutral-500/50 p-1 xl:w-1/2"
-                                        >
-                                            <EleGlow
-                                                Tag="Link"
-                                                href={item.pretty}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                offset="5px"
-                                                opacity="0.5"
-                                                rx="8px"
-                                                className="w-fit px-2 text-primary-500 [&:is(:hover,:focus)]:underline"
-                                            >
-                                                {item.pretty}
-                                            </EleGlow>
-                                        </td>
-                                        <td scope="row" className=" w-full p-1">
-                                            <EleGlow
-                                                className="mx-auto !flex w-full flex-row items-center justify-center rounded-lg bg-primary-500 
-                                        p-1 text-white transition-all duration-150 
-                                        ease-in data-[copium=true]:!bg-surface-500 data-[copium=true]:!text-white xl:w-min
-                                        [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600"
-                                                rx="8px"
-                                                type="button"
-                                                onClick={(e) => {
-                                                    clearTimeout(timeout);
-                                                    navigator.clipboard.writeText(
-                                                        item.pretty,
-                                                    );
+                                            {item.pretty}
+                                        </EleGlow>
+                                    </td>
+                                    <td
+                                        scope="row"
+                                        className=" table-cell w-full p-2"
+                                    >
+                                        <EleGlow
+                                            className=" mx-auto !flex w-full flex-row items-center justify-center rounded-lg 
+                                            border-2 border-transparent bg-primary-500 p-1 text-white
+                                        transition-all duration-150 ease-in active:border-tneutral-500 data-[copium=true]:!bg-surface-500
+                                        data-[copium=true]:!text-white xl:w-min [&:is(:hover,:focus)]:bg-primary-500/50 [&:is(:hover,:focus)]:text-surface-600 [&>*]:pointer-events-none"
+                                            rx="8px"
+                                            type="button"
+                                            onClick={(e) => {
+                                                clearTimeout(timeout);
+                                                navigator.clipboard.writeText(
+                                                    item.pretty,
+                                                );
 
+                                                e.target.setAttribute(
+                                                    "data-copium",
+                                                    true,
+                                                );
+
+                                                timeout = setTimeout(() => {
                                                     e.target.setAttribute(
                                                         "data-copium",
-                                                        true,
+                                                        false,
                                                     );
-                                                    e.target.innerText =
-                                                        "Copium";
 
-                                                    timeout = setTimeout(() => {
-                                                        e.target.setAttribute(
-                                                            "data-copium",
-                                                            false,
-                                                        );
-                                                        e.target.innerText =
-                                                            "Copy";
-                                                        onCooldown = false;
-                                                    }, 3000);
+                                                    onCooldown = false;
+                                                }, 3000);
 
-                                                    if (!onCooldown) {
-                                                        onCooldown = true;
-                                                        toast(
-                                                            "Copium!!!!!!!!!!!!!!",
-                                                        );
-                                                    }
-                                                }}
-                                            >
-                                                <ClipboardCopy />
-                                                <span className="inline-block px-2 xl:hidden ">
-                                                    Copy
-                                                </span>
-                                            </EleGlow>
-                                        </td>
-                                    </tr>
-                                    {/* {id < listOfUrls.length - 1 && (
-                                        <hr className="w-full border-b border-solid border-tneutral-500/50" />
-                                    )} */}
-                                </>
+                                                if (!onCooldown) {
+                                                    onCooldown = true;
+                                                    toast.success("Copium!", {
+                                                        autoClose: 1500,
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            <ClipboardCopy />
+                                            <span className="inline-block px-2 xl:hidden ">
+                                                Copy
+                                            </span>
+                                        </EleGlow>
+                                    </td>
+                                </tr>
                             );
                         })}
                 </tbody>

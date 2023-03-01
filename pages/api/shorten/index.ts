@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { type ZodString, z, ZodError } from "zod";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 import axios, { AxiosError, type AxiosResponse } from "axios";
-import makeid from "@/components/shared/makeId";
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const formSchema: ZodString = z.string().url();
 
@@ -12,7 +12,21 @@ const shrtcode = axios.create({
     timeout: 1000,
 });
 
-export default async function handler(req, res) {
+declare type ShrtcodeType = {
+    ok: boolean;
+    result: {
+        code: string;
+        short_link: string;
+        full_short_link: string;
+        short_link2: string;
+        full_short_link2: string;
+        share_link: string;
+        full_share_link: string;
+        original_link: string;
+    };
+};
+
+export default async function handler(req:NextApiRequest, res:NextApiResponse ) {
     if (req.method === "POST") {
         let uglyUrl = req.body.url;
         // console.log(req.body.url);
@@ -31,10 +45,10 @@ export default async function handler(req, res) {
             return;
         }
         const session = await getServerSession(req, res, authOptions);
+        let data: ShrtcodeType;
 
         // Axios fetch
-        let response: AxiosResponse<unknown, unknown>;
-
+        let response: AxiosResponse<unknown, unknown> | undefined = undefined;
         try {
             response = await shrtcode("/shorten?url=" + req.body.url);
         } catch (e) {
@@ -65,10 +79,13 @@ export default async function handler(req, res) {
         // console.log(response.data);
 
         let shortenedUrl = "";
-        if (!!session && session.user && response?.data?.ok) {
+        if (!!session && session.user && response) {
             try {
-                shortenedUrl = response.data.result?.full_short_link;
-                addShortUrl(session.user.id, req.body.url, shortenedUrl);
+                data = response.data as ShrtcodeType;
+                if (data.ok) {
+                    shortenedUrl = data.result.full_short_link;
+                    addShortUrl(session.user.id, req.body.url, shortenedUrl);
+                }
             } catch (e) {
                 console.log(e);
             }
