@@ -67,6 +67,8 @@ export default function GlowWrap({
                 }
                 {...props}
             >
+                {children}
+
                 {render && (
                     <svg className={styles["glow-container"]}>
                         <rect
@@ -83,8 +85,6 @@ export default function GlowWrap({
                         ></rect>
                     </svg>
                 )}
-
-                {children}
             </div>
         </>
     );

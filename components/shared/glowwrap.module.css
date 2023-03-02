@@ -47,7 +47,7 @@ as described by Kevin Powell https://codepen.io/kevinpowell/pen/rNrdzdx
         calc(50px - var(--glow-line-length));
 }
 
-.glow-effect:is(:hover, :focus) :is(.glow-line, .glow-blur) {
+.glow-effect > *:is(:hover, :focus) ~ * > :is(.glow-line, .glow-blur) {
     stroke-dashoffset: calc(-3.5 * var(--glow-line-length));
     transition: stroke-dashoffset var(--animation-speed) ease-in;
     outline: none;
@@ -61,8 +61,11 @@ as described by Kevin Powell https://codepen.io/kevinpowell/pen/rNrdzdx
     filter: blur(var(--glow-blur-size));
     stroke-width: var(--glow-blur-size);
 }
+.glow-effect > *:is(:hover, :focus) {
+    outline-offset: 4px;
+}
 
-.glow-effect:is(:hover, :focus) .glow-container {
+.glow-effect > *:is(:hover, :focus) ~ .glow-container {
     outline: none;
     border: none;
     animation: glow-visibility cubic-bezier(0.42, 1.03, 0.76, 0.4)
@@ -90,7 +93,9 @@ as described by Kevin Powell https://codepen.io/kevinpowell/pen/rNrdzdx
     --glow-offset: 10px;
 }
 
-.glow-effect[data-glow-animation="grow"]:is(:hover, :focus) .glow-container {
+.glow-effect[data-glow-animation="grow"]
+    > *:is(:hover, :focus)
+    ~ .glow-container {
     scale: 1.3;
     transition: scale var(--animation-speed) linear;
 }

@@ -10,6 +10,7 @@ import {
 import { LoadingDots, Google } from "@/components/shared/icons";
 import Image from "next/image";
 import Github from "@/components/shared/icons/svg/icon-github.svg";
+import GlowWrap from "../shared/glowwrap";
 
 const SignInModal = ({
     showSignInModal,
@@ -24,12 +25,12 @@ const SignInModal = ({
         <Modal showModal={showSignInModal} setShowModal={setShowSignInModal}>
             <div className="w-full overflow-hidden shadow-xl md:max-w-md md:rounded-2xl md:border md:border-gray-200">
                 <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center md:px-16">
-                    <a href="https://precedent.dev">
+                    <a href="/">
                         <Image
-                            src="/logo.png"
+                            src="/logo.svg"
                             alt="Logo"
-                            className="h-10 w-10 rounded-full"
-                            width={20}
+                            className="h-10 w-fit"
+                            width={120}
                             height={20}
                         />
                     </a>
@@ -41,48 +42,62 @@ const SignInModal = ({
                 </div>
 
                 <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
-                    <button
-                        disabled={signInClicked}
+                    <GlowWrap
+                        rx="6px"
                         className={`${
-                            signInClicked
-                                ? "cursor-not-allowed border-tneutral-500/50 bg-tneutral-600/50"
-                                : "border border-tneutral-500 bg-white text-surface-600 hover:bg-primary-500/25"
-                        } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
-                        onClick={() => {
-                            setSignInClicked(true);
-                            signIn("github");
-                        }}
+                            signInClicked ? "hidden" : ""
+                        }  h-10 w-full`}
                     >
-                        {signInClicked ? (
-                            <LoadingDots color="#808080" />
-                        ) : (
-                            <>
-                                <Google className="h-5 w-5" />
-                                <p>Sign In with Google</p>
-                            </>
-                        )}
-                    </button>
-                    <button
-                        disabled={signInClicked}
+                        <button
+                            disabled={signInClicked}
+                            className={`${
+                                signInClicked
+                                    ? "cursor-not-allowed border-tneutral-500/50 bg-tneutral-600/50"
+                                    : "border border-tneutral-500 bg-white text-surface-600 hover:bg-primary-500/25"
+                            } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
+                            onClick={() => {
+                                setSignInClicked(true);
+                                signIn("github");
+                            }}
+                        >
+                            {signInClicked ? (
+                                <LoadingDots color="#808080" />
+                            ) : (
+                                <>
+                                    <Google className="h-5 w-5" />
+                                    <p>Sign In with Google</p>
+                                </>
+                            )}
+                        </button>
+                    </GlowWrap>
+                    <GlowWrap
+                        rx="6px"
                         className={`${
-                            signInClicked
-                                ? "cursor-not-allowed border-tneutral-500/50 bg-tneutral-600/50"
-                                : "border border-tneutral-500 bg-white text-surface-600 hover:bg-primary-500/25"
-                        } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
-                        onClick={() => {
-                            setSignInClicked(true);
-                            signIn("github");
-                        }}
+                            signInClicked ? "hidden" : ""
+                        }  h-10 w-full`}
                     >
-                        {signInClicked ? (
-                            <LoadingDots color="#808080" />
-                        ) : (
-                            <>
-                                <Github className="h-5 w-5" />
-                                <p>Sign In with Github</p>
-                            </>
-                        )}
-                    </button>
+                        <button
+                            disabled={signInClicked}
+                            className={`${
+                                signInClicked
+                                    ? "cursor-not-allowed border-tneutral-500/50 bg-tneutral-600/50"
+                                    : "border border-tneutral-500 bg-white text-surface-600 hover:bg-primary-500/25"
+                            } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
+                            onClick={() => {
+                                setSignInClicked(true);
+                                signIn("github");
+                            }}
+                        >
+                            {signInClicked ? (
+                                <LoadingDots color="#808080" />
+                            ) : (
+                                <>
+                                    <Github className="h-5 w-5" />
+                                    <p>Sign In with Github</p>
+                                </>
+                            )}
+                        </button>
+                    </GlowWrap>
                     {/* <button
                         disabled={signInClicked}
                         className={`${

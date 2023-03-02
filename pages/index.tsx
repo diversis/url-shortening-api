@@ -3,16 +3,15 @@ import Balancer from "react-wrap-balancer";
 // import { motion } from "framer-motion";
 import Image from "next/image";
 import GlowWrap from "@/components/shared/glowwrap";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { LoadingSpinner } from "@/components/shared/icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import useLocalStorage from "@/lib/hooks/use-local-storage";
 import makeid from "@/components/shared/makeId";
 import { ShortUrlFromDB } from "@/lib/prisma/shortUrls";
-import { NextApiResponse } from "next";
 
 async function saveFormData(data: object): Promise<Response> {
     return await fetch("/api/shorten", {
@@ -22,7 +21,7 @@ async function saveFormData(data: object): Promise<Response> {
     });
 }
 
-export default function Home() {
+export default function Home(): JSX.Element {
     const [urlList, setUrlList] = useLocalStorage("urlList", []);
     const { isDesktop } = useWindowSize();
 
@@ -32,10 +31,17 @@ export default function Home() {
         setError,
         reset,
         setFocus,
-        formState: { isSubmitting, errors, isSubmitSuccessful },
-    } = useForm();
 
-    const onSubmit = async (data: object) => {
+        formState: {
+            isSubmitting,
+            errors,
+            isSubmitSuccessful,
+            isDirty,
+            isValid,
+        },
+    } = useForm();
+    let hasErrors = false;
+    const onSubmit = async (data: FieldValues) => {
         console.log(data);
         const response = await saveFormData(data);
         if (response.status === 400) {
@@ -49,6 +55,7 @@ export default function Home() {
                 fieldToErrorMessage,
             )) {
                 setError(fieldName, { type: "custom", message: errorMessage });
+                hasErrors = !!errorMessage && isDirty && !isValid;
             }
         } else if (response.ok) {
             // successful
@@ -64,12 +71,19 @@ export default function Home() {
                     { ugly: resBody.ugly, pretty: resBody.pretty },
                 ] as never);
             }
+
             toast.success("What a pretty URL here");
         } else {
             // unknown error
+
+            const res = response as Response & {
+                error: {
+                    message: string;
+                };
+            };
             toast.error(
-                "An unexpected error occurred while processing, please try again",
-                response.error?.message,
+                "An unexpected error occurred while processing, please try again" +
+                    res.error?.message,
             );
         }
     };
@@ -140,8 +154,9 @@ export default function Home() {
                             id="url"
                             type="text"
                             placeholder="Shorten a link here"
-                            className="peer relative h-[3.5rem] w-full rounded-lg px-4  text-base placeholder:text-transparent "
+                            className="peer relative h-[3.5rem] w-full rounded-lg px-4  text-base placeholder:text-transparent invalid:[&:not(:placeholder-shown)]:border-red-600"
                             pattern="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?"
+                            required
                             {...register("url", { required: true })}
                         />
                         <label
@@ -153,7 +168,7 @@ export default function Home() {
                             Shorten a link here
                         </label>
                         <div className="h-6 text-sm text-red-500">
-                            {errors?.url?.message}
+                            {!!hasErrors && (errors?.url?.message as string)}
                         </div>
                     </div>
 

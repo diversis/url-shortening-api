@@ -91,7 +91,7 @@ export default function Dashboard({
                         Array.isArray(listOfUrls) &&
                         listOfUrls.length > 0 &&
                         listOfUrls.map((item: SavedShort, id: number) => {
-                            const date = new Date(+item.createdAt * 1000);
+                            const date = new Date(+item.createdAt);
                             const options: Intl.DateTimeFormatOptions = {
                                 weekday: "short",
                                 year: "numeric",

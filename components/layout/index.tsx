@@ -9,6 +9,7 @@ import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
 import GlowWrap from "../shared/glowwrap";
+import Image from "next/image";
 
 const menuItems = [
     { name: "Features", url: "/" },
@@ -48,7 +49,12 @@ export default function Layout({
                         href="/"
                         className="font-display flex items-baseline  pr-8 text-3xl font-bold xl:pr-16  "
                     >
-                        Shortly
+                        <Image
+                            src="/logo.svg"
+                            width="150"
+                            height="50"
+                            alt="Shortly"
+                        ></Image>
                     </Link>
                     <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
@@ -78,13 +84,17 @@ export default function Layout({
                         <div>
                             <AnimatePresence>
                                 {!session && status !== "loading" ? (
-                                    <motion.button
-                                        className="rounded-full border border-surface-500 bg-surface-600 p-1.5 px-5 text-sm text-white transition-all hover:bg-white hover:text-surface-600"
-                                        onClick={() => setShowSignInModal(true)}
-                                        {...FADE_IN_ANIMATION_SETTINGS}
-                                    >
-                                        Sign In
-                                    </motion.button>
+                                    <GlowWrap rx="25px">
+                                        <motion.button
+                                            className="rounded-full border-2 border-surface-500 p-1.5 px-5 text-sm text-surface-600 transition-all [&:is(:hover,:focus)]:border-transparent [&:is(:hover,:focus)]:bg-primary-500/50"
+                                            onClick={() =>
+                                                setShowSignInModal(true)
+                                            }
+                                            {...FADE_IN_ANIMATION_SETTINGS}
+                                        >
+                                            Sign In
+                                        </motion.button>
+                                    </GlowWrap>
                                 ) : (
                                     <UserDropdown />
                                 )}
