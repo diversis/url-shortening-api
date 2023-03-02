@@ -1,4 +1,7 @@
-import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
+import {
+    FADE_DOWN_ANIMATION_VARIANTS,
+    FADE_IN_ANIMATION_SETTINGS,
+} from "@/lib/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -10,6 +13,7 @@ import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
 import GlowWrap from "../shared/glowwrap";
 import Image from "next/image";
+import Logo from "../../public/logo.svg";
 
 const menuItems = [
     { name: "Features", url: "/" },
@@ -36,7 +40,13 @@ export default function Layout({
         <>
             <Meta {...meta} />
             <SignInModal />
-            <div className="fixed -z-10 h-screen w-full bg-conic from-white to-primary-100" />
+            <a
+                href="#main"
+                className="absolute z-[9000] mx-auto -translate-y-full bg-white py-2 px-4 transition-transform focus:translate-y-0"
+            >
+                Skip to content
+            </a>
+            <div className="fixed -z-10 h-screen w-full " />
             <div
                 className={`fixed top-0 w-full ${
                     scrolled
@@ -47,14 +57,9 @@ export default function Layout({
                 <div className="container mx-auto flex h-16 items-center overflow-hidden px-5">
                     <Link
                         href="/"
-                        className="font-display flex items-baseline  pr-8 text-3xl font-bold xl:pr-16  "
+                        className="font-display mr-8 flex items-baseline  fill-surface-600 text-3xl font-bold xl:mr-16  "
                     >
-                        <Image
-                            src="/logo.svg"
-                            width="150"
-                            height="50"
-                            alt="Shortly"
-                        ></Image>
+                        <Logo />
                     </Link>
                     <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
@@ -62,7 +67,7 @@ export default function Layout({
                                 menuItems.length > 0 &&
                                 menuItems.map((item) => {
                                     return (
-                                        <li>
+                                        <li key={"menu-" + item.name}>
                                             <GlowWrap
                                                 className="h-fit self-end text-sm"
                                                 data-glow-animation="grow"
@@ -91,6 +96,9 @@ export default function Layout({
                                                 setShowSignInModal(true)
                                             }
                                             {...FADE_IN_ANIMATION_SETTINGS}
+                                            variants={
+                                                FADE_DOWN_ANIMATION_VARIANTS
+                                            }
                                         >
                                             Sign In
                                         </motion.button>
@@ -103,10 +111,7 @@ export default function Layout({
                     </nav>
                 </div>
             </div>
-            <main
-                id="main"
-                className="flex w-full flex-col items-center gap-8 pt-12 xl:gap-16 xl:pt-32"
-            >
+            <main id="main" className="w-full pt-12 xl:pt-32">
                 {children}
             </main>
             <Footer />

@@ -73,13 +73,11 @@ export default function GlowWrap({
                     <svg className={styles["glow-container"]}>
                         <rect
                             pathLength="100"
-                            stroke-linecap="round"
                             className={styles["glow-blur"] + " " + blurColor}
                             rx={rx}
                         ></rect>
                         <rect
                             pathLength="100"
-                            stroke-linecap="round"
                             className={styles["glow-line"] + " " + lineColor}
                             rx={rx}
                         ></rect>

@@ -24,7 +24,7 @@ const socialLinks = [
 ];
 export default function footer() {
     return (
-        <footer className="w-full overflow-hidden bg-surface-600 text-white">
+        <footer className="grid h-[40rem] w-full place-items-center overflow-hidden bg-surface-600 text-white xl:h-[16rem]">
             <div className="xl:gap-[clamp(2rem,10vw + 2rem,8rem)] container mx-auto flex w-full flex-col items-center justify-center gap-4 px-5 py-12 text-center xl:flex-row xl:justify-between xl:text-left">
                 <Link
                     href="/"

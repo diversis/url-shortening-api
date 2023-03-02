@@ -87,8 +87,7 @@ module.exports = {
                 "slide-down-fade":
                     "slide-down-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                 // Form and last section background
-                "bg-slide":
-                    "bg-slide 50s cubic-bezier(0.46, 0.33, 0.3, -0.1) infinite",
+                "bg-slide": "bg-slide 25s ease-in-out infinite",
             },
             keyframes: {
                 // Tooltip
@@ -104,9 +103,6 @@ module.exports = {
                     "0%, 100%": { "background-position": "top left" },
                     "50%": { "background-position": "bottom right" },
                 },
-            },
-            backgroundImage: {
-                conic: "conic-gradient(from 0turn at 150% -20%,var(--tw-gradient-from),var(--tw-gradient-from) 230deg,var(--tw-gradient-to) 247deg,var(--tw-gradient-from) 250deg)",
             },
         },
     },

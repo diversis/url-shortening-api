@@ -41,7 +41,7 @@ as described by Kevin Powell https://codepen.io/kevinpowell/pen/rNrdzdx
     y: calc((var(--container-offset) / 2) + calc(var(--glow-offset) / -2));
     /* rx: 1.25rem; */
     fill: transparent;
-
+    stroke-linecap: round;
     stroke-width: 5px;
     stroke-dasharray: var(--glow-line-length)
         calc(50px - var(--glow-line-length));
