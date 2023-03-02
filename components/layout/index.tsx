@@ -12,8 +12,8 @@ import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import Footer from "./footer";
 import GlowWrap from "../shared/glowwrap";
-import Image from "next/image";
 import Logo from "../../public/logo.svg";
+import MobileDropdown from "./mobile-dropdown";
 
 const menuItems = [
     { name: "Features", url: "/" },
@@ -52,16 +52,17 @@ export default function Layout({
                     scrolled
                         ? "border-b border-gray-200 bg-white/50 backdrop-blur-xl"
                         : "bg-white/0"
-                } z-50 transition-all`}
+                } z-30 transition-all`}
             >
-                <div className="container mx-auto flex h-16 items-center overflow-hidden px-5">
+                <div className="container mx-auto flex h-16 items-center justify-between overflow-hidden px-5">
                     <Link
                         href="/"
                         className="font-display mr-8 flex items-baseline  fill-surface-600 text-3xl font-bold xl:mr-16  "
                     >
                         <Logo />
                     </Link>
-                    <nav className=" hidden w-full flex-row items-center justify-between gap-10 lg:flex">
+                    {/* Desktop Navigation */}
+                    <nav className=" hidden w-full flex-row items-center justify-between gap-10 xl:flex">
                         <ul className="text-baseline hidden flex-row gap-10 lg:flex ">
                             {Array.isArray(menuItems) &&
                                 menuItems.length > 0 &&
@@ -108,6 +109,12 @@ export default function Layout({
                                 )}
                             </AnimatePresence>
                         </div>
+                    </nav>
+                    {/* Mobile Navigation */}
+                    <nav className="block w-min xl:hidden">
+                        <GlowWrap rx="25px">
+                            <MobileDropdown />
+                        </GlowWrap>
                     </nav>
                 </div>
             </div>

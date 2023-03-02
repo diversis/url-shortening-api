@@ -166,7 +166,11 @@ export default function Home(): JSX.Element {
                         <div className="relative w-full xl:w-5/6">
                             <input
                                 onFocus={(e) => {
-                                    e.target.scrollIntoView(false);
+                                    e.target.scrollIntoView({
+                                        behavior: "smooth",
+                                        block: "center",
+                                        inline: "nearest",
+                                    });
                                 }}
                                 aria-label="Shorten url"
                                 title="Shorten url"
@@ -180,7 +184,7 @@ export default function Home(): JSX.Element {
                             />
                             <label
                                 htmlFor="url"
-                                className="input-transition pointer-events-none absolute top-[1rem] left-4 z-20  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
+                                className="input-transition pointer-events-none absolute top-[1rem] left-4 z-10  rounded-lg bg-transparent px-1 text-base text-tneutral-600 
                         peer-[&:not(:placeholder-shown)]:-translate-y-5 peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-xs
                           "
                             >
