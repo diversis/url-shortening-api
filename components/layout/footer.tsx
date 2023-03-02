@@ -5,6 +5,7 @@ import Instagram from "@/components/shared/icons/svg/icon-instagram.svg";
 import Twitter from "@/components/shared/icons/svg/icon-twitter.svg";
 import Pinterest from "@/components/shared/icons/svg/icon-pinterest.svg";
 import GlowWrap from "../shared/glowwrap";
+import Logo from "../../public/logo.svg";
 
 const footerLinks = [
     {
@@ -27,9 +28,9 @@ export default function footer() {
             <div className="xl:gap-[clamp(2rem,10vw + 2rem,8rem)] container mx-auto flex w-full flex-col items-center justify-center gap-4 px-5 py-12 text-center xl:flex-row xl:justify-between xl:text-left">
                 <Link
                     href="/"
-                    className="font-display flex text-3xl font-bold xl:self-start xl:pr-16 "
+                    className="font-display flex fill-white text-3xl font-bold xl:self-start xl:pr-16 "
                 >
-                    Shortly
+                    <Logo />
                 </Link>
                 <div className="flex flex-col gap-4 xl:flex-row xl:gap-20 ">
                     {/* Links */}
@@ -57,7 +58,7 @@ export default function footer() {
                                                         >
                                                             <Link
                                                                 href="/"
-                                                                className=" text-sm transition-all duration-150 ease-in"
+                                                                className="text-sm font-light transition-all duration-150 ease-in"
                                                             >
                                                                 {val}
                                                             </Link>
@@ -76,7 +77,7 @@ export default function footer() {
                                 const Icon = item.icon;
                                 return (
                                     <GlowWrap
-                                        className=" h-8 w-8 transition-all duration-150 ease-in xl:h-12 xl:w-12"
+                                        className=" h-6 w-6 transition-all duration-150 ease-in xl:h-8 xl:w-8"
                                         rx="10px"
                                         offset="10px"
                                         speed="700ms"
@@ -86,7 +87,7 @@ export default function footer() {
                                         <a href={item.url}>
                                             <Icon
                                                 viewBox="0 0 24 24"
-                                                className="h-8 w-8 fill-white transition-all duration-150 ease-in xl:h-12 xl:w-12 [&:is(:hover,:focus)]:!fill-primary-500"
+                                                className="h-6 w-6 fill-white transition-all duration-150 ease-in xl:h-8 xl:w-8 [&:is(:hover,:focus)]:!fill-primary-500"
                                             />
                                         </a>
                                     </GlowWrap>

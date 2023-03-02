@@ -11,6 +11,7 @@ import useWindowSize from "@/lib/hooks/use-window-size";
 import "react-toastify/dist/ReactToastify.css";
 import { GetServerSidePropsContext } from "next";
 import GlowWrap from "@/components/shared/glowwrap";
+import { useEffect, useState } from "react";
 
 export const getServerSideProps = async (
     context: GetServerSidePropsContext,
@@ -45,7 +46,11 @@ export default function Dashboard({
 }: {
     listOfPrettyUrls: { urls: SavedShort[] };
 }): JSX.Element {
-    const listOfUrls: SavedShort[] = listOfPrettyUrls.urls;
+    const [listOfUrls, setListOfUrls] = useState([]);
+    // const listOfUrls: SavedShort[] = listOfPrettyUrls.urls;
+    useEffect(() => {
+        setListOfUrls(listOfPrettyUrls.urls as SavedShort[] as never);
+    }, [listOfPrettyUrls.urls]);
     const { isDesktop } = useWindowSize();
     // console.log(listOfUrls);
     return (
@@ -91,7 +96,7 @@ export default function Dashboard({
                         Array.isArray(listOfUrls) &&
                         listOfUrls.length > 0 &&
                         listOfUrls.map((item: SavedShort, id: number) => {
-                            const date = new Date(+item.createdAt);
+                            const date = new Date(item.createdAt);
                             const options: Intl.DateTimeFormatOptions = {
                                 weekday: "short",
                                 year: "numeric",
