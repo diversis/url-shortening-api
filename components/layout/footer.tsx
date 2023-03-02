@@ -27,6 +27,8 @@ export default function footer() {
         <footer className="grid h-[40rem] w-full place-items-center overflow-hidden bg-surface-600 text-white xl:h-[16rem]">
             <div className="xl:gap-[clamp(2rem,10vw + 2rem,8rem)] container mx-auto flex w-full flex-col items-center justify-center gap-4 px-5 py-12 text-center xl:flex-row xl:justify-between xl:text-left">
                 <Link
+                    aria-label="visit this app's main page"
+                    title="Shortly Logo"
                     href="/"
                     className="font-display flex fill-white text-3xl font-bold xl:self-start xl:pr-16 "
                 >
@@ -44,10 +46,10 @@ export default function footer() {
                                     <h6>{key.name}</h6>
                                     <ul className="flex flex-col gap-2">
                                         {!!key &&
-                                            key.links?.map((val) => {
+                                            key.links?.map((item: string) => {
                                                 return (
                                                     <li
-                                                        key={val}
+                                                        key={item}
                                                         className="[&:is(:hover,:focus)]:text-primary-500"
                                                     >
                                                         <GlowWrap
@@ -57,10 +59,15 @@ export default function footer() {
                                                             speed="700ms"
                                                         >
                                                             <Link
+                                                                aria-label="visit this app's main page | link not yet implemented"
+                                                                title={
+                                                                    "link placeholder: " +
+                                                                    item
+                                                                }
                                                                 href="/"
                                                                 className="text-sm font-light transition-all duration-150 ease-in"
                                                             >
-                                                                {val}
+                                                                {item}
                                                             </Link>
                                                         </GlowWrap>
                                                     </li>

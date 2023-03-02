@@ -14,8 +14,7 @@ export const FADE_UP_ANIMATION_VARIANTS = {
     show: { opacity: 1, y: 0, transition: { type: "spring" } },
 };
 
-export const DEPLOY_URL =
-    "https://vercel.com/diversis/url-shortening-api/5MU7AzHJ7FBubRFXNPLYcRerQHNb";
+export const DEPLOY_URL = "https://url-shortening-api-nine.vercel.app/";
 
 export const MENU_ITEMS = [
     { name: "Features", url: "/" },

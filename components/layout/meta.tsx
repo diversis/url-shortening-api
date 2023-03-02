@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const DOMAIN = "https://localhost:3000";
+const DOMAIN = "https://url-shortening-api-nine.vercel.app/";
 
 export default function Meta({
     title = "Frontend Mentor | Shortly",

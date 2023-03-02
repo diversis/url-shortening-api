@@ -9,7 +9,6 @@ import {
     FADE_IN_ANIMATION_SETTINGS,
 } from "@/lib/constants";
 import Link from "next/link";
-import GlowWrap from "../shared/glowwrap";
 
 export default function UserDropdown() {
     const { data: session } = useSession();

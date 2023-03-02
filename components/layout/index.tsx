@@ -54,6 +54,8 @@ export default function Layout({
                 >
                     <div className="container mx-auto flex h-16 items-center justify-between overflow-hidden px-5">
                         <Link
+                            aria-label="visit this app's main page"
+                            title="Shortly Logo"
                             href="/"
                             className="font-display mr-8 flex items-baseline  fill-surface-600 text-3xl font-bold xl:mr-16  "
                         >
@@ -75,6 +77,11 @@ export default function Layout({
                                                     speed="700ms"
                                                 >
                                                     <Link
+                                                        aria-label="visit this app's main page | link not yet implemented"
+                                                        title={
+                                                            "link placeholder: " +
+                                                            item.name
+                                                        }
                                                         href={item.url}
                                                         className="text-sm text-tneutral-600 transition-all duration-150 ease-in [&:is(:hover,:focus)]:text-surface-600"
                                                     >

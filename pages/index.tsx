@@ -1,6 +1,5 @@
 import Layout from "@/components/layout";
 import Balancer from "react-wrap-balancer";
-// import { motion } from "framer-motion";
 import Image from "next/image";
 import GlowWrap from "@/components/shared/glowwrap";
 import { FieldValues, useForm } from "react-hook-form";

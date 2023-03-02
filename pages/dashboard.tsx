@@ -5,7 +5,6 @@ import Layout from "@/components/layout";
 import { type Session } from "next-auth";
 import { SavedShort } from "@prisma/client";
 import { ClipboardCopy } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import "react-toastify/dist/ReactToastify.css";
