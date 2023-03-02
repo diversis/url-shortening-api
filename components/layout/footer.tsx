@@ -91,7 +91,11 @@ export default function footer() {
                                         key={item.name}
                                         data-glow-animation="grow"
                                     >
-                                        <a href={item.url}>
+                                        <a
+                                            href={item.url}
+                                            aria-label="visit this app's main page | link not yet implemented"
+                                            title={"link placeholder: " + item}
+                                        >
                                             <Icon
                                                 viewBox="0 0 24 24"
                                                 className="h-6 w-6 fill-white transition-all duration-150 ease-in xl:h-8 xl:w-8 [&:is(:hover,:focus)]:!fill-primary-500"
