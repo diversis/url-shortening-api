@@ -32,7 +32,7 @@ export default async function handler(
 ) {
     if (req.method === "POST") {
         let uglyUrl = req.body.url;
-        console.log(req.body.url);
+       
 
         try {
             formSchema.parse(uglyUrl);

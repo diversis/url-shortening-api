@@ -51,7 +51,7 @@ export default function Dashboard({
         setListOfUrls(listOfPrettyUrls.urls as SavedShort[] as never);
     }, [listOfPrettyUrls.urls]);
     const { isDesktop } = useWindowSize();
-    // console.log(listOfUrls);
+
     return (
         <Layout>
             <div className="flex w-full flex-col items-center gap-4 xl:gap-8  ">

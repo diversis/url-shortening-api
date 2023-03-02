@@ -46,11 +46,8 @@ export default function Home(): JSX.Element {
     } = useForm();
     let hasErrors = false;
     const onSubmit = async (data: FieldValues) => {
-        console.log(data);
         const response = await saveFormData(data);
         if (response.status === 400) {
-            console.log("invalid");
-
             // Validation error
             const fieldToErrorMessage: { [fieldName: string]: string } =
                 await response.json();
