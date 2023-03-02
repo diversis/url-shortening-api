@@ -33,10 +33,10 @@ export default async function handler(req: NextRequest) {
             >
                 <img
                     src={new URL(
-                        "../../public/logo.png",
+                        "../../public/favicon-32x32.png",
                         import.meta.url,
                     ).toString()}
-                    alt="Shortly Logo"
+                    alt="Frontend Mentor Logo"
                     tw="w-20 h-20 mb-4 opacity-95"
                 />
                 <h1
