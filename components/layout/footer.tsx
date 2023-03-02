@@ -43,7 +43,7 @@ export default function footer() {
                                     key={key.name}
                                     className="flex flex-col gap-4"
                                 >
-                                    <h6>{key.name}</h6>
+                                    <h4>{key.name}</h4>
                                     <ul className="flex flex-col gap-2">
                                         {!!key &&
                                             key.links?.map((item: string) => {
