@@ -5,7 +5,7 @@ const DOMAIN = "https://url-shortening-api-nine.vercel.app/";
 export default function Meta({
     title = "Frontend Mentor | Shortly",
     description = "shorten urls here",
-    image = `${DOMAIN}/api/og`,
+    image = `${DOMAIN}/favicon-32x32.png`,
 }: {
     title?: string;
     description?: string;

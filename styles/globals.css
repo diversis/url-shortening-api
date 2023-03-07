@@ -91,18 +91,8 @@
     }
 
     ::-webkit-scrollbar {
-        /* width: clamp(0.1vw + 1px, 0.3vw + 2px, 0.5vw + 2px);
-        min-width: 1px; */
         min-width: 100%;
     }
-
-    /* @media screen and (min-width: 768px) {
-        ::-webkit-scrollbar {
-            width: clamp(0.2vw + 6px, 0.3vw + 6px, 0.5vw + 6px);
-            width: 0.5vw;
-            min-width: 6px;
-        }
-    } */
 
     ::-webkit-scrollbar-track {
         @apply bg-primary-600;
