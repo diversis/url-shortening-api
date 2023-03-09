@@ -1,4 +1,4 @@
-Sitemap: https://precedent.dev/sitemap.xml
+Sitemap: https://url-shortening-api-nine.vercel.app//sitemap.xml
 
 User-agent: *
 Disallow: /api
