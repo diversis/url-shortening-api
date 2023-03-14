@@ -38,7 +38,7 @@ export async function getServerSideProps({
     req: NextApiRequest;
     res: NextApiResponse;
 }) {
-    const hostname = `localhost:3000`;
+    const hostname = `https://url-shortening-api-nine.vercel.app/`;
 
     // Generate dynamic data for the sitemap
     //   const users = await prisma.user.findMany({
