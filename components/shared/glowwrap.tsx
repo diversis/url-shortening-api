@@ -1,4 +1,3 @@
-import styles from "./glowwrap.module.css";
 import { useCallback, useEffect, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
@@ -54,7 +53,7 @@ export default function GlowWrap({
         <>
             <div
                 ref={ref}
-                className={styles["glow-effect"] + " " + className}
+                className={"glow-effect " + className}
                 style={
                     {
                         ["--animation-speed"]: speed,
@@ -70,17 +69,17 @@ export default function GlowWrap({
                 {children}
 
                 {render && (
-                    <svg className={styles["glow-container"]}>
+                    <svg className="glow-container">
                         <rect
                             pathLength="100"
-                            className={styles["glow-blur"] + " " + blurColor}
+                            className={"glow-blur " + blurColor}
                             rx={rx}
                             width="100"
                             height="100"
                         ></rect>
                         <rect
                             pathLength="100"
-                            className={styles["glow-line"] + " " + lineColor}
+                            className={"glow-line " + lineColor}
                             rx={rx}
                             width="100"
                             height="100"

@@ -13,7 +13,6 @@ import Link from "next/link";
 import Hamburger from "@/components/shared/icons/svg/hamburger.svg";
 import GlowWrap from "../shared/glowwrap";
 import { useSignInModal } from "./sign-in-modal";
-import stylesDropdown from "./mobile-dropdown.module.css";
 
 export default function MobileDropdown() {
     // setShowSignInModal: Dispatch<SetStateAction<boolean>>,
@@ -138,11 +137,7 @@ export default function MobileDropdown() {
                 >
                     <button
                         onClick={() => setOpenPopover(!openPopover)}
-                        className={
-                            stylesDropdown["mobile-nav-toggle"] +
-                            " " +
-                            "flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-95 sm:h-9 sm:w-9"
-                        }
+                        className="mobile-nav-toggle flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-95 sm:h-9 sm:w-9"
                     >
                         <span className="sr-only">Menu</span>
                         <Hamburger />
