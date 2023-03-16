@@ -16,6 +16,7 @@ import {
     FADE_DOWN_ANIMATION_VARIANTS,
     FADE_IN_ANIMATION_SETTINGS,
 } from "@/lib/constants";
+import { handleCopy } from "@/lib/handleTextCopy";
 
 async function saveFormData(data: object): Promise<Response> {
     return await fetch("/api/shorten", {
@@ -242,41 +243,15 @@ export default function Home(): JSX.Element {
                                         >
                                             <button
                                                 type="button"
-                                                onClick={(
-                                                    e: React.MouseEvent<HTMLElement>,
-                                                ) => {
-                                                    clearTimeout(timeout);
-                                                    navigator.clipboard.writeText(
-                                                        shortUrl.pretty,
-                                                    );
-                                                    const target =
-                                                        e.target as HTMLButtonElement;
-                                                    target.setAttribute(
-                                                        "data-copium",
-                                                        "true",
-                                                    );
-                                                    target.innerText = "Copium";
-
-                                                    timeout = setTimeout(() => {
-                                                        target.setAttribute(
-                                                            "data-copium",
-                                                            "false",
-                                                        );
-                                                        target.innerText =
-                                                            "Copy";
-                                                        onCooldown = false;
-                                                    }, 3000);
-
-                                                    if (!onCooldown) {
-                                                        onCooldown = true;
-                                                        toast.success(
-                                                            "Copium!",
-                                                            {
-                                                                autoClose: 1500,
-                                                            },
-                                                        );
-                                                    }
-                                                }}
+                                                onClick={(e) =>
+                                                    handleCopy({
+                                                        e,
+                                                        timeout,
+                                                        onCooldown,
+                                                        textToCopy:
+                                                            shortUrl.pretty,
+                                                    })
+                                                }
                                                 className="w-full rounded-lg bg-primary-500 p-2 text-white 
                                         transition-all duration-150 ease-in data-[copium=true]:!bg-surface-500 
                                         data-[copium=true]:!text-white xl:w-32

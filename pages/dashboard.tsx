@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { GetServerSidePropsContext } from "next";
 import GlowWrap from "@/components/shared/glowwrap";
 import { useEffect, useState } from "react";
+import { handleCopy } from "@/lib/handleTextCopy";
 
 export const getServerSideProps = async (
     context: GetServerSidePropsContext,
@@ -51,6 +52,36 @@ export default function Dashboard({
         setListOfUrls(listOfPrettyUrls.urls as SavedShort[] as never);
     }, [listOfPrettyUrls.urls]);
     const { isDesktop } = useWindowSize();
+
+    // const handleCopy = ({
+    //     e,
+    //     timeout,
+    //     onCooldown,
+    //     textToCopy,
+    // }: {
+    //     e: React.MouseEvent<HTMLElement>;
+    //     timeout: NodeJS.Timeout;
+    //     onCooldown: boolean;
+    //     textToCopy: string;
+    // }) => {
+    //     clearTimeout(timeout);
+    //     navigator.clipboard.writeText(textToCopy);
+    //     const target = e.target as HTMLButtonElement;
+    //     target.setAttribute("data-copium", "true");
+
+    //     timeout = setTimeout(() => {
+    //         target.setAttribute("data-copium", "false");
+
+    //         onCooldown = false;
+    //     }, 3000);
+
+    //     if (!onCooldown) {
+    //         onCooldown = true;
+    //         toast.success("Copium!", {
+    //             autoClose: 1500,
+    //         });
+    //     }
+    // };
 
     return (
         <Layout>
@@ -100,7 +131,7 @@ export default function Dashboard({
                         {listOfUrls &&
                             Array.isArray(listOfUrls) &&
                             listOfUrls.length > 0 &&
-                            listOfUrls.map((item: SavedShort, id: number) => {
+                            listOfUrls.map((item: SavedShort) => {
                                 const date = new Date(item.createdAt);
                                 const options: Intl.DateTimeFormatOptions = {
                                     weekday: "short",
@@ -114,7 +145,7 @@ export default function Dashboard({
                                 let onCooldown = false;
                                 return (
                                     <tr
-                                        key={item.pretty + "-" + id}
+                                        key={item.pretty + "-row"}
                                         className=" flex w-full flex-col items-center border-b border-solid border-tneutral-500/50 text-center xl:table-row xl:text-left  "
                                     >
                                         <td
@@ -162,43 +193,15 @@ export default function Dashboard({
                                             >
                                                 <button
                                                     type="button"
-                                                    onClick={(
-                                                        e: React.MouseEvent<HTMLElement>,
-                                                    ) => {
-                                                        clearTimeout(timeout);
-                                                        navigator.clipboard.writeText(
-                                                            item.pretty,
-                                                        );
-                                                        const target =
-                                                            e.target as HTMLButtonElement;
-                                                        target.setAttribute(
-                                                            "data-copium",
-                                                            "true",
-                                                        );
-
-                                                        timeout = setTimeout(
-                                                            () => {
-                                                                target.setAttribute(
-                                                                    "data-copium",
-                                                                    "false",
-                                                                );
-
-                                                                onCooldown =
-                                                                    false;
-                                                            },
-                                                            3000,
-                                                        );
-
-                                                        if (!onCooldown) {
-                                                            onCooldown = true;
-                                                            toast.success(
-                                                                "Copium!",
-                                                                {
-                                                                    autoClose: 1500,
-                                                                },
-                                                            );
-                                                        }
-                                                    }}
+                                                    onClick={(e) =>
+                                                        handleCopy({
+                                                            e,
+                                                            timeout,
+                                                            onCooldown,
+                                                            textToCopy:
+                                                                item.pretty,
+                                                        })
+                                                    }
                                                     className=" mx-auto !flex w-full flex-row items-center justify-center rounded-lg 
                                             border-2 border-transparent bg-primary-500 p-1 text-white
                                         transition-all duration-150 ease-in active:border-tneutral-500 data-[copium='true']:!bg-surface-500
