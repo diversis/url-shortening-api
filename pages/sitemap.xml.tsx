@@ -15,14 +15,7 @@ function generateSiteMap({
        <url>
              <loc>${`${hostname}/dashboard`}</loc>
          </url>
-       ${users
-           .map((username) => {
-               return `
-         <url>
-             <loc>${`${hostname}/${username}`}</loc>
-         </url>`;
-           })
-           .join("")}
+      
      </urlset>
    `;
 }

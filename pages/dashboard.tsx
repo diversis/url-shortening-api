@@ -5,7 +5,7 @@ import Layout from "@/components/layout";
 import { type Session } from "next-auth";
 import { SavedShort } from "@prisma/client";
 import { ClipboardCopy } from "lucide-react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import "react-toastify/dist/ReactToastify.css";
 import { GetServerSidePropsContext } from "next";
@@ -47,41 +47,10 @@ export default function Dashboard({
     listOfPrettyUrls: { urls: SavedShort[] };
 }): JSX.Element {
     const [listOfUrls, setListOfUrls] = useState([]);
-    // const listOfUrls: SavedShort[] = listOfPrettyUrls.urls;
     useEffect(() => {
         setListOfUrls(listOfPrettyUrls.urls as SavedShort[] as never);
     }, [listOfPrettyUrls.urls]);
     const { isDesktop } = useWindowSize();
-
-    // const handleCopy = ({
-    //     e,
-    //     timeout,
-    //     onCooldown,
-    //     textToCopy,
-    // }: {
-    //     e: React.MouseEvent<HTMLElement>;
-    //     timeout: NodeJS.Timeout;
-    //     onCooldown: boolean;
-    //     textToCopy: string;
-    // }) => {
-    //     clearTimeout(timeout);
-    //     navigator.clipboard.writeText(textToCopy);
-    //     const target = e.target as HTMLButtonElement;
-    //     target.setAttribute("data-copium", "true");
-
-    //     timeout = setTimeout(() => {
-    //         target.setAttribute("data-copium", "false");
-
-    //         onCooldown = false;
-    //     }, 3000);
-
-    //     if (!onCooldown) {
-    //         onCooldown = true;
-    //         toast.success("Copium!", {
-    //             autoClose: 1500,
-    //         });
-    //     }
-    // };
 
     return (
         <Layout>
