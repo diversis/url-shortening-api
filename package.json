@@ -38,7 +38,7 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.43.2",
-        "react-markdown": "^8.0.4",
+        "react-markdown": "^8.0.7",
         "react-resize-detector": "^8.0.4",
         "react-toastify": "^9.1.1",
         "react-wrap-balancer": "^0.4.0",
