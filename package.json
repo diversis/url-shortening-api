@@ -30,7 +30,7 @@
         "eslint-config-next": "13.3.0",
         "focus-trap-react": "^10.0.2",
         "framer-motion": "^10.0.0",
-        "lucide-react": "0.137.0",
+        "lucide-react": "0.242.0",
         "ms": "^2.1.3",
         "next": "^13.2.1",
         "next-auth": "^4.18.8",
